@@ -1,4 +1,4 @@
 __pycache__
 venv 
 .env
-g_document_ai_creds
+g_document_ai_creds.json
