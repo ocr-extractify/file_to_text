@@ -36,9 +36,16 @@ const FileInput = ({id, ...rest}: Props) => {
     }
   }
 
+  async function removeFile(filename: string) {
+    setFiles(prevState => {
+        return prevState.filter(file => file.name !== filename)
+    })
+  }
+
   console.log('files', files)
   return (
     <div>
+        <label htmlFor={id}>
         <div className="w-full sm:border-t sm:border-gray-200 sm:pt-5">
               <div className="w-full mt-1 sm:mt-0">
                 <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -58,13 +65,9 @@ const FileInput = ({id, ...rest}: Props) => {
                       />
                     </svg>
                     <div className="flex justify-center text-sm text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                      >
-                        <span>{UPLOAD_FILE}</span>
-                        <input id={id} type="file" className="sr-only" onChange={handleFileChange} {...rest}/>
-                      </label>
+                      <span>{UPLOAD_FILE}</span>
+                      <input id={id} type="file" className="sr-only" onChange={handleFileChange} {...rest}/>
+                      
                       <p className="pl-1">{OR_DRAG_AND_DROP}</p>
                     </div>
                     <p className="text-xs text-gray-500">{FILE_INPUT_MIMETYPES}</p>
@@ -72,10 +75,16 @@ const FileInput = ({id, ...rest}: Props) => {
                 </div>
               </div>
             </div>
-
-        <ul>
+        </label>
+        
+        <ul className="mt-2 space-y-2">
             {files.map((file) => (
-                <li key={file.name}>{file.name}</li>
+                <li key={file.name} className="flex justify-between border rounded-md p-2 font-medium">
+                    <span>{file.name}</span>
+                    <button onClick={() => removeFile(file.name)}>
+                        X
+                    </button>
+                </li>
             ))}
         </ul>
     </div>
