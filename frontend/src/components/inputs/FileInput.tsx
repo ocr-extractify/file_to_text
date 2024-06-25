@@ -1,16 +1,16 @@
 import { VALID_MIMETYPES } from "@/constants/constraints";
 import { INVALID_MIMETYPE } from "@/constants/errorsMsgs";
 import { FILE_INPUT_MIMETYPES, OR_DRAG_AND_DROP, UPLOAD_FILE } from "@/constants/uiTexts";
-import { useState } from "react";
+import { ComponentProps, useState } from "react";
 import { toast } from "react-toastify";
 
-type Props = {
+interface Props extends ComponentProps<'input'> {
     id: string;
 }
 
 
-const FileInput = ({id}: Props) => {
-  const [files, setFiles] = useState([]);
+const FileInput = ({id, ...rest}: Props) => {
+  const [files, setFiles] = useState<File[] | []>([]);
 
   async function isValidMimetype(mimetype: string): Promise<boolean> {
     if(VALID_MIMETYPES.includes(mimetype)) return true;
@@ -24,13 +24,14 @@ const FileInput = ({id}: Props) => {
     if(fileList) {
         const filesArray = Array.from(fileList);
 
-        let validFiles = await Promise.all(filesArray.map(async (file) => {
+        const arrayOfValidFileOrNull = await Promise.all(filesArray.map(async (file) => {
             const isValid = await isValidMimetype(file.type);
             if(isValid) return file;
             return null;
         }));
-        validFiles = validFiles.filter((file) => file !== null);
 
+        const isFile = (file: File | null): file is File => file !== null; 
+        const validFiles = arrayOfValidFileOrNull.filter(isFile);
         if(validFiles.length > 0) setFiles(prevState => [...prevState, ...validFiles]);
     }
   }
@@ -38,9 +39,9 @@ const FileInput = ({id}: Props) => {
   console.log('files', files)
   return (
     <div>
-        <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <div className="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+        <div className="w-full sm:border-t sm:border-gray-200 sm:pt-5">
+              <div className="w-full mt-1 sm:mt-0">
+                <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg
                       className="mx-auto h-12 w-12 text-gray-400"
@@ -56,13 +57,13 @@ const FileInput = ({id}: Props) => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <div className="flex text-sm text-gray-600">
+                    <div className="flex justify-center text-sm text-gray-600">
                       <label
                         htmlFor="file-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                       >
                         <span>{UPLOAD_FILE}</span>
-                        <input id={id} type="file" className="sr-only" onChange={handleFileChange} />
+                        <input id={id} type="file" className="sr-only" onChange={handleFileChange} {...rest}/>
                       </label>
                       <p className="pl-1">{OR_DRAG_AND_DROP}</p>
                     </div>
