@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.get_files import get_files_router
 from routes.upload import upload_router
+from utils.middlewares import ExceptionHandlerMiddleware
 
 app = FastAPI(
     title="Files to text",
@@ -17,6 +18,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(ExceptionHandlerMiddleware)
 
 if __name__ == "__main__":
     import uvicorn
