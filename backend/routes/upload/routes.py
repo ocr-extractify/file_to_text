@@ -12,7 +12,7 @@ from db.schemas.files import FileModel
     response_model=FileModel,
 )
 async def upload(file: UploadFile):
-    analyzed_file = await analyze_file(file)
+    analyzed_file = {}  # await analyze_file(file)
     file = FileModel(name=file.filename, analysis=analyzed_file)
     file_dict = file.model_dump(by_alias=True, exclude=["id"])
     new_db_file = await files_collection.insert_one(file_dict)
