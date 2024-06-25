@@ -1,3 +1,4 @@
+import traceback
 from typing import Any
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
@@ -14,6 +15,7 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
         try:
             return await call_next(request)
         except Exception as e:
+            print(traceback.format_exc())
             return JSONResponse(
                 status_code=400, content={"detail": str(e)}, headers=CORS_HEADER
             )
