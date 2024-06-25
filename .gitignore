@@ -4,3 +4,4 @@ venv
 g_document_ai_creds.json
 
 node_modules
+.vite
