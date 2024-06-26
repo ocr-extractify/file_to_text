@@ -1,18 +1,14 @@
 import { VALID_MIMETYPES } from '@/constants/constraints';
 import { INVALID_MIMETYPE } from '@/constants/errorsMsgs';
 import {
-  CREATING_ID,
-  CREATING_RESULT,
   FILENAME,
   FILE_INPUT_MIMETYPES,
   OR_DRAG_AND_DROP,
-  RESULT,
   UPLOAD_FILE,
 } from '@/constants/uiTexts';
 import { APIFile } from '@/utils/types';
 import { ComponentProps } from 'react';
 import { toast } from 'react-toastify';
-import LoadingText from '../texts/LoadingText';
 
 interface Props extends ComponentProps<'input'> {
   id: string;
@@ -22,7 +18,6 @@ interface Props extends ComponentProps<'input'> {
 }
 
 const FileInput = ({ id, files, setFiles, isUploading, ...rest }: Props) => {
-  // const [files, setFiles] = useState<File[] | []>([]);
   async function isValidMimetype(mimetype: string): Promise<boolean> {
     if (VALID_MIMETYPES.includes(mimetype)) return true;
     toast.error(INVALID_MIMETYPE);
@@ -44,17 +39,14 @@ const FileInput = ({ id, files, setFiles, isUploading, ...rest }: Props) => {
       const isFile = (file: File | null): file is File => file !== null;
       const validFiles = arrayOfValidFileOrNull.filter(isFile);
       if (validFiles.length > 0) {
-        const newFiles = validFiles.map((file) => {
-          return { file: file };
-        });
         console.log('valid files', validFiles);
-        setFiles(newFiles);
+        setFiles((prevState) => [...prevState, ...validFiles]);
       }
     }
   }
 
   async function removeFile(filename: string) {
-    setFiles(files.filter((file) => file.file.name !== filename));
+    setFiles((prevState) => prevState.filter((file) => file.name !== filename));
   }
 
   async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -114,27 +106,15 @@ const FileInput = ({ id, files, setFiles, isUploading, ...rest }: Props) => {
       <ul className="mt-2 space-y-2">
         {files.map((file) => (
           <li
-            key={file.file.name}
+            key={file.name}
             className="flex flex-col justify-between border rounded-md p-2 font-medium relative pr-7"
           >
             <span className="w-full flex justify-between">
               <span>{FILENAME}</span>
-              <span>{file.file.name}</span>
-            </span>
-            <span className="w-full flex justify-between">
-              <span>ID</span>
-              {isUploading ? <LoadingText>{CREATING_ID}</LoadingText> : file.id}
-            </span>
-            <span className="w-full flex justify-between">
-              <span>{RESULT}</span>
-              {isUploading ? (
-                <LoadingText>{CREATING_RESULT}</LoadingText>
-              ) : (
-                <span>{file.analysis}</span>
-              )}
+              <span>{file.name}</span>
             </span>
             <button
-              onClick={() => removeFile(file.file.name)}
+              onClick={() => removeFile(file.name)}
               className="absolute right-2 top-2"
             >
               X
