@@ -6,9 +6,15 @@ import { httpClient } from '@/utils/axios';
 import Button from '@/components/Button';
 import { toast } from 'react-toastify';
 import { useFilesStore } from '@/utils/zustandStorage';
+import { useState } from 'react';
+import { APIFile } from '@/utils/types';
+import Result from '@/fragments/Result';
 
 function UploadFilesPage() {
-  const serverFiles = useFilesStore((state) => state.files);
+  // const files = useFilesStore((state) => state.files);
+  const [results, setResults] = useState<null | any[]>(null);
+  const [files, setFiles] = useState<APIFile[] | []>([]);
+  const addFile = useFilesStore((state) => state.add);
   const uploadFileMutation = useMutation({
     mutationFn: async (file: File) => {
       const formData = new FormData();
@@ -19,29 +25,18 @@ function UploadFilesPage() {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then((res) => {
-          console.log('res: ', res.data._id);
-          setServerFiles((prevState) => {
-            const targetFile = serverFiles.find(
-              (_file) => _file.file.name === file.name,
-            );
-
-            if (!targetFile) return prevState;
-
-            targetFile.id = res.data._id;
-            const updatedFiles = prevState.filter(
-              (_file) => _file.file.name !== file.name,
-            );
-            return [...[...updatedFiles, targetFile]];
-          });
+          console.log('res: ', res.data);
+          addFile(res.data);
+          setResults((prevState) => [...(prevState || []), res.data]);
         })
         .catch((err) => {
           toast.error(err.response.data.detail);
         });
     },
   });
-  const setNotUploadedFilesPersistently = useFilesStore(
-    (state) => state.setNotUploadedFiles,
-  );
+  // const setNotUploadedFilesPersistently = useFilesStore(
+  //   (state) => state.setNotUploadedFiles,
+  // );
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,22 +49,30 @@ function UploadFilesPage() {
     );
   }
 
-  console.log('serverFiles', serverFiles);
+  console.log('results', results);
   return (
     <div className="w-5/6 mx-auto mt-10">
       <h1 className="text-2xl">{TITLE}</h1>
       <h2 className="text-xl">{DESCRIPTION}</h2>
-      <form className="w-full flex flex-col" onSubmit={handleSubmit}>
-        <FileInput
-          id="files"
-          files={serverFiles}
-          setFiles={(files) => setNotUploadedFilesPersistently(files)}
-          isUploading={uploadFileMutation.isPending}
-          multiple
-          accept={VALID_MIMETYPES.join(',')}
-        />
-        <Button className="mt-2 uppercase">{SUBMIT_BUTTON}</Button>
-      </form>
+      {!results ? (
+        <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+          <FileInput
+            id="files"
+            files={files}
+            setFiles={setFiles}
+            isUploading={uploadFileMutation.isPending}
+            multiple
+            accept={VALID_MIMETYPES.join(',')}
+          />
+          <Button className="mt-2 uppercase">{SUBMIT_BUTTON}</Button>
+        </form>
+      ) : (
+        <>
+          {results.map((result) => {
+            <Result result />;
+          })}
+        </>
+      )}
     </div>
   );
 }
