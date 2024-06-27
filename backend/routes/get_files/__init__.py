@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 get_files_router = APIRouter(
-    # prefix="/",
+    prefix="/files",
     tags=["get files"],
 )
 
