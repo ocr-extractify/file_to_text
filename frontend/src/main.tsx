@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import '@/main.css';
 import FilesPage from './pages/FilesPage';
+import FilePage from './pages/FilePage';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/files',
     element: <FilesPage />,
+  },
+  {
+    path: '/files/:id',
+    element: <FilePage />,
   },
 ]);
 
