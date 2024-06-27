@@ -12,7 +12,7 @@ import Result from '@/fragments/Result';
 import { FileStoreState } from '@/utils/zustandStorage/types';
 
 function UploadFilesPage() {
-  const [results, setResults] = useState<null | any[]>(null);
+  const [results, setResults] = useState<null | APIFile[]>(null);
   const [files, setFiles] = useState<APIFile[] | []>([]);
   const addFile = useFilesStore((state: FileStoreState) => state.add);
   const uploadFileMutation = useMutation({
@@ -25,7 +25,6 @@ function UploadFilesPage() {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then((res) => {
-          console.log('res: ', res.data);
           addFile(res.data);
           setResults((prevState) => [...(prevState || []), res.data]);
         })
@@ -37,20 +36,22 @@ function UploadFilesPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!e.currentTarget.files.files) return;
 
+    const filesArray: File[] = Array.from(e.currentTarget.files.files);
     Promise.all(
-      Array.from(e.currentTarget.files.files).map((file: File) => {
-        uploadFileMutation.mutateAsync(file);
+      filesArray.map((file: File) => {
+        return uploadFileMutation.mutateAsync(file);
       }),
     );
   }
 
-  console.log('results', results);
   return (
     <div className="w-5/6 mx-auto mt-10">
-      <h1 className="text-2xl">{TITLE}</h1>
-      <h2 className="text-xl">{DESCRIPTION}</h2>
-
+      <div className="text-center">
+        <h1 className="text-4xl">{TITLE}</h1>
+        <h2 className="text-3xl">{DESCRIPTION}</h2>
+      </div>
       {!results ? (
         <form className="w-full flex flex-col" onSubmit={handleSubmit}>
           <FileInput
