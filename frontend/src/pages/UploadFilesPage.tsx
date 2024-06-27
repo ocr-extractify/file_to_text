@@ -34,14 +34,10 @@ function UploadFilesPage() {
         });
     },
   });
-  // const setNotUploadedFilesPersistently = useFilesStore(
-  //   (state) => state.setNotUploadedFiles,
-  // );
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log('submit', e.currentTarget.files.files);
     Promise.all(
       Array.from(e.currentTarget.files.files).map((file: File) => {
         uploadFileMutation.mutateAsync(file);
