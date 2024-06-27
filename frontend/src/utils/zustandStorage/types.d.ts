@@ -1,3 +1,5 @@
-export type FileStoreState = {
-  files: APIFile[];
-};
+export interface FileStoreState {
+  files: APIFile[] | [];
+  add: (file: APIFile) => void;
+  removeAll: () => void;
+}

@@ -3,7 +3,7 @@ import { APIFile } from '@/utils/types';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { FileStoreState } from './types';
 
-export const useFilesStore = create(
+export const useFilesStore = create<FileStoreState>()(
   persist(
     (set) => ({
       files: [],
