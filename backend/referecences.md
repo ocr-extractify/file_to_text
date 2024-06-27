@@ -2,4 +2,4 @@
 2. [fastapi + mongoDB](https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/)
 3. [mongo db installation](https://www.mongodb.com/docs/drivers/pymongo/)
 4. [query for id using string](https://stackoverflow.com/questions/7846001/what-is-the-correct-way-to-query-mongodb-for-id-using-string-by-using-python)
-5. [Analyzed Document Class - Google Document AI](https://cloud.google.com/php/docs/reference/cloud-document-ai/1.7.0/V1.Document.Entity)
+5. [Analyzed Document Class - Google Document AI](https://cloud.google.com/php/docs/reference/cloud-document-ai/1.7.0/V1.Document)
