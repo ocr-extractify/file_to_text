@@ -16,7 +16,7 @@ class FileModel(BaseModel):
             "example": {
                 "name": "invoice file",
                 "created_at": datetime(2024, 6, 24, 12, 16, 55, 696065),
-                is_deleted: False,
+                "is_deleted": False,
             }
         }
     )
