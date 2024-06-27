@@ -9,12 +9,12 @@ import { useFilesStore } from '@/utils/zustandStorage';
 import { useState } from 'react';
 import { APIFile } from '@/utils/types';
 import Result from '@/fragments/Result';
+import { FileStoreState } from '@/utils/zustandStorage/types';
 
 function UploadFilesPage() {
-  // const files = useFilesStore((state) => state.files);
   const [results, setResults] = useState<null | any[]>(null);
   const [files, setFiles] = useState<APIFile[] | []>([]);
-  const addFile = useFilesStore((state) => state.add);
+  const addFile = useFilesStore((state: FileStoreState) => state.add);
   const uploadFileMutation = useMutation({
     mutationFn: async (file: File) => {
       const formData = new FormData();
@@ -50,6 +50,7 @@ function UploadFilesPage() {
     <div className="w-5/6 mx-auto mt-10">
       <h1 className="text-2xl">{TITLE}</h1>
       <h2 className="text-xl">{DESCRIPTION}</h2>
+
       {!results ? (
         <form className="w-full flex flex-col" onSubmit={handleSubmit}>
           <FileInput
@@ -64,9 +65,9 @@ function UploadFilesPage() {
         </form>
       ) : (
         <>
-          {results.map((result) => {
-            <Result result />;
-          })}
+          {results.map((result) => (
+            <Result result={result} />
+          ))}
         </>
       )}
     </div>
