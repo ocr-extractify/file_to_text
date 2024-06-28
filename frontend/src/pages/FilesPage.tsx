@@ -7,7 +7,7 @@ const FilesPage = () => {
   return (
     <div>
       {files.map((file: APIFile) => (
-        <div key={file.name}>
+        <div key={file._id}>
           <p>{file.name}</p>
         </div>
       ))}
