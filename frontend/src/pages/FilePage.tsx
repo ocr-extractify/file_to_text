@@ -9,7 +9,6 @@ const FilePage = () => {
     queryKey: ['analyzedFile', id],
     queryFn: () => httpClient.get(`/files/${id}`),
   });
-  console.log('AnalyzedFile', analyzedFile);
 
   return (
     <Result

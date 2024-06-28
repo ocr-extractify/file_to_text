@@ -4,7 +4,6 @@ import { useFilesStore } from '@/utils/zustandStorage';
 const FilesPage = () => {
   const files = useFilesStore((state) => state.files);
 
-  console.log('files loaded', files);
   return (
     <div>
       {files.map((file: APIFile) => (

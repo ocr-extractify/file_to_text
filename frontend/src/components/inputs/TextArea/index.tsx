@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import Icons from '@/components/inputs/TextArea/Icons';
 
 interface Props extends ComponentProps<'textarea'> {
-  data: string;
+  data?: string;
   label: string;
   className?: string;
   ref?: React.Ref<HTMLTextAreaElement>;

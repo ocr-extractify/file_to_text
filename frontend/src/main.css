@@ -1,3 +1,19 @@
+.skeleton {
+  width: 80%;
+  padding: 1rem 0;
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 0.25rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
