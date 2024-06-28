@@ -11,6 +11,7 @@ export const FILE_INPUT_MIMETYPES: string = `${VALID_MIMETYPES.join(
 )} up to ${(MAX_FILE_SIZE / 1024 / 1024).toString()}MB`;
 export const SUBMIT_BUTTON: string = 'to txt';
 export const FILENAME: string = 'Filename';
+export const FILESIZE: string = 'Filesize';
 export const RESULT: string = 'Result';
 export const CREATING_ID: string = 'Creating id...';
 export const CREATING_RESULT: string = 'Creating result...';
@@ -19,3 +20,5 @@ export const ANALYZED_FILE_DETECTED_LANGUAGES: string = 'Detected languages';
 export const ANALYZED_FILE_LEARN_MORE: string =
   'Learn more about extract text of language.';
 export const ANALYZED_FILE_LANGUAGE_CODE: string = 'Language code';
+export const UPLOAD_FILES_TAB: string = 'Upload files';
+export const FILES_TAB: string = 'Files';
