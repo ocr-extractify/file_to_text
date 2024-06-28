@@ -1,9 +1,11 @@
 import React, { ComponentProps } from 'react';
+import { CgSpinner } from 'react-icons/cg';
 
 interface Props extends ComponentProps<'button'> {
   children: React.ReactNode;
   variant?: string;
   className?: string;
+  isLoading?: boolean;
 }
 
 const variants: Record<string, string> = {
@@ -19,14 +21,21 @@ const Button = ({
   children,
   variant = 'indigo',
   className,
+  isLoading = false,
   ...rest
 }: Props) => {
   return (
     <button
-      className={`inline-flex justify-center items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${variants[variant]} ${className}`}
+      className={`inline-flex justify-center items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+        variants[variant]
+      } ${className} ${isLoading && 'cursor-not-allowed opacity-50'}`}
+      disabled={isLoading}
       {...rest}
     >
       {children}
+      {isLoading && (
+        <CgSpinner className="animate-spin -mr-1 ml-3 h-5 w-5 text-white" />
+      )}
     </button>
   );
 };
