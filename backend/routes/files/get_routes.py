@@ -26,7 +26,6 @@ async def get_file(id: str):
         raise HTTPException(status_code=400, detail={INVALID_FILE_ID})
 
     file = await files_collection.find_one({"_id": ObjectId(id)})
-    print("file: ", file)
     if file is None:
         raise HTTPException(status_code=404, detail={FILE_NOT_FOUND})
 
