@@ -3,3 +3,5 @@
 3. [mongo db installation](https://www.mongodb.com/docs/drivers/pymongo/)
 4. [query for id using string](https://stackoverflow.com/questions/7846001/what-is-the-correct-way-to-query-mongodb-for-id-using-string-by-using-python)
 5. [Analyzed Document Class - Google Document AI](https://cloud.google.com/php/docs/reference/cloud-document-ai/1.7.0/V1.Document)
+6. [conventional-commits-pattern](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657)
+7. [convetional-commits-pattern](https://www.conventionalcommits.org/en/v1.0.0/)
