@@ -9,6 +9,10 @@ export const useFilesStore = create<FileStoreState>()(
       files: [],
       add: (file: APIFile) =>
         set((state: FileStoreState) => ({ files: [...state.files, file] })),
+      remove: (_id: string) =>
+        set((state: FileStoreState) => ({
+          files: state.files.filter((file) => file._id !== _id),
+        })),
       removeAll: () => set({ files: [] }),
     }),
     {
