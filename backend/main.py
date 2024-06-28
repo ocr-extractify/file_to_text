@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.get_files import get_files_router
-from routes.upload import upload_router
+from routes.files import files_router
 from utils.middlewares import ExceptionHandlerMiddleware
 
 app = FastAPI(
@@ -9,8 +8,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-app.include_router(get_files_router)
-app.include_router(upload_router)
+app.include_router(files_router)
 
 app.add_middleware(
     CORSMiddleware,

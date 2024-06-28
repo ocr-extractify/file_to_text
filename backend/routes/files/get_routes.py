@@ -1,12 +1,12 @@
 from constants.errors_texts import FILE_NOT_FOUND, INVALID_FILE_ID
-from routes.get_files import get_files_router
+from routes.files import files_router
 from fastapi import HTTPException, status
 from db import files_collection
 from db.schemas.files import FileModel, FilesCollection
 from bson import ObjectId
 
 
-@get_files_router.get(
+@files_router.get(
     "/",
     description="get all files",
     status_code=status.HTTP_200_OK,
@@ -15,7 +15,7 @@ async def get_files():
     return FilesCollection(files=await files_collection.find().to_list(1000))
 
 
-@get_files_router.get(
+@files_router.get(
     "/{id}",
     description="get a file by id",
     status_code=status.HTTP_200_OK,
