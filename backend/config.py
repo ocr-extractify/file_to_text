@@ -12,4 +12,3 @@ class Config(BaseSettings):
 
 
 config = Config()
-print("mongo url:", Config().MONGODB_URL)
