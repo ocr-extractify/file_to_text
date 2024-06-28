@@ -59,7 +59,7 @@ const Base = () => {
                 {tab.label}
                 {tab.badge !== undefined && (
                   <span className="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block">
-                    9
+                    {tab.badge}
                   </span>
                 )}
               </Tab>
