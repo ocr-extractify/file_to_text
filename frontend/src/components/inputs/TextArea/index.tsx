@@ -4,13 +4,13 @@ import { twMerge } from 'tailwind-merge';
 import Icons from '@/components/inputs/TextArea/Icons';
 
 interface Props extends ComponentProps<'textarea'> {
-  children: React.ReactNode;
+  data: string;
   label: string;
   className?: string;
   ref?: React.Ref<HTMLTextAreaElement>;
 }
 
-const TextArea = ({ children, label, className, ...rest }: Props) => {
+const TextArea = ({ data, label, className, ...rest }: Props) => {
   return (
     <div className="flex items-start space-x-4">
       <div className="min-w-0 flex-1">
@@ -19,7 +19,7 @@ const TextArea = ({ children, label, className, ...rest }: Props) => {
             {label}
           </label>
 
-          <Icons data={children} />
+          <Icons data={data} />
 
           <Textarea
             className={twMerge(
@@ -27,9 +27,8 @@ const TextArea = ({ children, label, className, ...rest }: Props) => {
               className,
             )}
             {...rest}
-          >
-            {children}
-          </Textarea>
+            defaultValue={data}
+          />
         </div>
       </div>
     </div>

@@ -40,9 +40,12 @@ const Result = ({ result, isLoading }: Props) => {
           {isLoading ? (
             <BoxSkeleton className="w-full h-48" />
           ) : (
-            <TextArea label="Text" className="h-48" readOnly>
-              {result.analysis.text}
-            </TextArea>
+            <TextArea
+              data={result.analysis.text || ''}
+              label="Text"
+              className="h-48"
+              readOnly
+            />
           )}
           <div className="mt-10">
             <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8">
@@ -74,7 +77,10 @@ const Result = ({ result, isLoading }: Props) => {
                     <div className="space-y-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {result.analysis?.pages?.[0]?.detectedLanguages?.map(
                         (dl) => (
-                          <div className="flex flex-col rounded-md shadow-md p-1">
+                          <div
+                            key={dl.languageCode}
+                            className="flex flex-col rounded-md shadow-md p-1"
+                          >
                             <div className="flex justify-between">
                               <span>{ANALYZED_FILE_LANGUAGE_CODE}</span>
                               <span>{dl.languageCode}</span>
