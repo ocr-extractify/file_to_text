@@ -22,7 +22,7 @@ function UploadFilesPage() {
       formData.append('file', file);
 
       return httpClient
-        .post('/upload/', formData, {
+        .post('/files/upload/', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then((res) => {
@@ -41,8 +41,6 @@ function UploadFilesPage() {
       toast.error(NO_FILE);
       return;
     }
-
-    console.log(e.currentTarget.files.files);
 
     const filesArray: File[] = Array.from(e.currentTarget.files.files);
     Promise.all(
