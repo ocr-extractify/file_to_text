@@ -22,7 +22,7 @@ const Skeleton = () => {
           <div className="mt-10">
             <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8">
               <div className="border-t-2 border-gray-100 pt-6">
-                <dt className="text-2xl font-medium text-gray-500">
+                <dt className="text-2xl font-medium text-gray-500 truncate">
                   {ANALYZED_FILE_CONFIDENCE}
                 </dt>
                 <dd className="skeleton w-24"></dd>
@@ -36,22 +36,30 @@ const Skeleton = () => {
                   <div className="space-y-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="flex flex-col rounded-md shadow-md p-1 space-y-2">
                       <div className="flex justify-between">
-                        <span>{ANALYZED_FILE_LANGUAGE_CODE}</span>
+                        <span className="truncate">
+                          {ANALYZED_FILE_LANGUAGE_CODE}
+                        </span>
                         <span className="skeleton w-12 p-2"></span>
                       </div>
                       <div className="flex justify-between">
-                        <span>{ANALYZED_FILE_CONFIDENCE}</span>
+                        <span className="truncate">
+                          {ANALYZED_FILE_CONFIDENCE}
+                        </span>
                         <span className="skeleton w-12 p-2"></span>
                       </div>
                     </div>
 
                     <div className="flex flex-col rounded-md shadow-md p-1 space-y-2">
                       <div className="flex justify-between">
-                        <span>{ANALYZED_FILE_LANGUAGE_CODE}</span>
+                        <span className="truncate">
+                          {ANALYZED_FILE_LANGUAGE_CODE}
+                        </span>
                         <span className="skeleton w-12 p-2"></span>
                       </div>
                       <div className="flex justify-between">
-                        <span>{ANALYZED_FILE_CONFIDENCE}</span>
+                        <span className="truncate">
+                          {ANALYZED_FILE_CONFIDENCE}
+                        </span>
                         <span className="skeleton w-12 p-2"></span>
                       </div>
                     </div>
