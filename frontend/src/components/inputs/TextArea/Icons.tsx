@@ -1,5 +1,6 @@
 import { MdCopyAll } from 'react-icons/md';
 import { LuDownload } from 'react-icons/lu';
+import IconButton from '@/components/buttons/IconButton';
 
 type Props = {
   data: React.ReactNode;
@@ -25,18 +26,12 @@ const Icons = ({ data }: Props) => {
 
   return (
     <div className="absolute right-4 top-2">
-      <button
-        onClick={copy}
-        className="p-1.5 rounded-full transition-transform transform active:scale-90 active:bg-gray-300"
-      >
+      <IconButton onClick={copy}>
         <MdCopyAll className="w-5 h-5" />
-      </button>
-      <button
-        onClick={download}
-        className="p-1.5 rounded-full transition-transform transform active:scale-90 active:bg-gray-300"
-      >
+      </IconButton>
+      <IconButton onClick={download}>
         <LuDownload className="w-5 h-5" />
-      </button>
+      </IconButton>
     </div>
   );
 };
