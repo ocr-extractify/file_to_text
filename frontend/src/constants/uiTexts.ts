@@ -22,3 +22,4 @@ export const ANALYZED_FILE_LEARN_MORE: string =
 export const ANALYZED_FILE_LANGUAGE_CODE: string = 'Language code';
 export const UPLOAD_FILES_TAB: string = 'Upload files';
 export const FILES_TAB: string = 'Files';
+export const DROP_FILES: string = 'Drop files here';
