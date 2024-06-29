@@ -6,6 +6,10 @@ import { LiaExternalLinkAltSolid } from 'react-icons/lia';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { httpClient } from '@/utils/axios';
+import { GET_STARTED, NO_FILES } from '@/constants/uiTexts';
+import Button from '@/components/buttons/Button';
+import { LuImagePlus } from 'react-icons/lu';
+import { FaPlus } from 'react-icons/fa6';
 
 const FilesPage = () => {
   const nav = useNavigate();
@@ -21,6 +25,24 @@ const FilesPage = () => {
 
   return (
     <div className="space-y-4">
+      {files.length === 0 && (
+        <div className="flex flex-col justify-center items-center mt-20">
+          <LuImagePlus className="h-12 w-12 text-gray-400" />
+          <h2 className="text-gray-900 mt-2 text-sm font-medium ">
+            {NO_FILES}
+          </h2>
+          <h3 className="text-gray-500 mt-1 text-sm">{GET_STARTED}</h3>
+
+          <Button
+            className="mt-2 flex items-center"
+            onClick={() => nav('/upload')}
+          >
+            <FaPlus className="w-3 h-3 mr-2" />
+            <span>Upload a file</span>
+          </Button>
+        </div>
+      )}
+
       {files.map((file: APIFile) => (
         <div
           key={file._id}
