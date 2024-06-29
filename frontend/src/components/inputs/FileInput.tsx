@@ -1,16 +1,19 @@
 import { VALID_MIMETYPES } from '@/constants/constraints';
 import { INVALID_MIMETYPE } from '@/constants/errorsMsgs';
 import {
+  DROP_FILES,
   FILENAME,
   FILESIZE,
   FILE_INPUT_MIMETYPES,
   OR_DRAG_AND_DROP,
   UPLOAD_FILE,
 } from '@/constants/uiTexts';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '../buttons/IconButton';
+import { useDropzone } from 'react-dropzone';
+import { LuImagePlus } from 'react-icons/lu';
 
 interface Props extends ComponentProps<'input'> {
   id: string;
@@ -19,89 +22,91 @@ interface Props extends ComponentProps<'input'> {
 }
 
 const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
-  const [isDragging, setIsDragging] = useState(false);
+  const isValidMimetype = useCallback(
+    async (mimetype: string): Promise<boolean> => {
+      if (VALID_MIMETYPES.includes(mimetype)) return true;
+      toast.error(INVALID_MIMETYPE);
+      return false;
+    },
+    [],
+  );
 
-  async function isValidMimetype(mimetype: string): Promise<boolean> {
-    if (VALID_MIMETYPES.includes(mimetype)) return true;
-    toast.error(INVALID_MIMETYPE);
-    return false;
-  }
+  const addFiles = useCallback(
+    async (files: File[] | FileList | null) => {
+      if (files) {
+        const filesArray = Array.from(files);
 
-  async function addFiles(files: File[] | FileList | null) {
-    if (files) {
-      const filesArray = Array.from(files);
+        const arrayOfValidFileOrNull = await Promise.all(
+          filesArray.map(async (file) => {
+            const isValid = await isValidMimetype(file.type);
+            if (isValid) return file;
+            return null;
+          }),
+        );
 
-      const arrayOfValidFileOrNull = await Promise.all(
-        filesArray.map(async (file) => {
-          const isValid = await isValidMimetype(file.type);
-          if (isValid) return file;
-          return null;
-        }),
-      );
-
-      const isFile = (file: File | null): file is File => file !== null;
-      const validFiles = arrayOfValidFileOrNull.filter(isFile);
-      if (validFiles.length > 0) {
-        setFiles((prevState) => [...prevState, ...validFiles]);
+        const isFile = (file: File | null): file is File => file !== null;
+        const validFiles = arrayOfValidFileOrNull.filter(isFile);
+        if (validFiles.length > 0) {
+          setFiles((prevState) => [...prevState, ...validFiles]);
+        }
       }
-    }
-  }
+    },
+    [isValidMimetype, setFiles],
+  );
 
-  async function removeFile(filename: string) {
-    setFiles((prevState) => prevState.filter((file) => file.name !== filename));
-  }
+  const removeFile = useCallback(
+    async (filename: string) => {
+      setFiles((prevState) =>
+        prevState.filter((file) => file.name !== filename),
+      );
+    },
+    [setFiles],
+  );
 
-  async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    addFiles(event.target.files);
-  }
+  const handleChange = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      addFiles(event.target.files);
+    },
+    [addFiles],
+  );
 
-  async function handleDrop(event: React.DragEvent<HTMLDivElement>) {
-    event.preventDefault();
-    setIsDragging(false);
-    addFiles(event.dataTransfer.files);
-  }
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      addFiles(acceptedFiles);
+    },
+    [addFiles],
+  );
 
-  useEffect(() => {
-    document.addEventListener('dragenter', (e) => {
-      setIsDragging(true);
-    });
-    document.addEventListener('dragleave', () => {
-      setIsDragging(false);
-    });
-  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleDrop,
+    noClick: true,
+  });
 
   return (
-    <div
-      onDrop={handleDrop}
-      // onDragOver={handleDragOver}
-      // onDragLeave={handleDragLeave}
-    >
-      {isDragging && (
-        <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex justify-center items-center">
-          <p className="text-lg font-medium text-gray-600">Drop files here</p>
+    <div {...getRootProps()}>
+      {isDragActive && (
+        <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex flex-col justify-center items-center">
+          <LuImagePlus
+            className="mx-auto h-12 w-12 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+          />
+          <p className="text-lg font-medium text-gray-600">{DROP_FILES}</p>
         </div>
       )}
 
       <div>
-        <label htmlFor={id}>
+        <label>
           <div className="h-52 sm:pt-5">
             <div className="w-full h-full mt-1 sm:mt-0">
               <div className="h-full flex justify-center items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                 <div className="space-y-1 text-center">
-                  <svg
+                  <LuImagePlus
                     className="mx-auto h-12 w-12 text-gray-400"
                     stroke="currentColor"
                     fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  />
+
                   <div className="flex justify-center text-sm text-gray-600">
                     <span>{UPLOAD_FILE}</span>
                     <input
@@ -110,6 +115,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
                       className="sr-only"
                       onChange={handleChange}
                       {...rest}
+                      {...getInputProps()}
                     />
 
                     <p className="pl-1">{OR_DRAG_AND_DROP}</p>
@@ -122,7 +128,6 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
             </div>
           </div>
         </label>
-
         <ul className="mt-2 space-y-2">
           {files.map((file) => (
             <li
