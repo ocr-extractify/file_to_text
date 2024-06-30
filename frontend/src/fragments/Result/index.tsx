@@ -8,6 +8,7 @@ import {
 import { toPercentage } from '@/utils/datastructures/float';
 import { APIFile } from '@/utils/types';
 import Skeleton from '@/fragments/Result/Skeleton';
+import CustomLink from '@/components/CustomLink';
 
 type Props = {
   result: APIFile;
@@ -78,10 +79,9 @@ const Result = ({ result, isLoading }: Props) => {
             </div>
           </dl>
           <div className="mt-10">
-            <a href="#" className="text-base font-medium text-indigo-600">
+            <CustomLink to="https://en.wikipedia.org/wiki/Optical_character_recognition">
               {ANALYZED_FILE_LEARN_MORE}
-              <span aria-hidden="true">&rarr;</span>{' '}
-            </a>
+            </CustomLink>
           </div>
         </div>
       </div>
