@@ -1,3 +1,5 @@
 1. [Zustand](https://docs.pmnd.rs/zustand)
 2. [Headlessui](https://headlessui.com)
 3. [React Router](https://reactrouter.com)
+4. [Tailwind](https://tailwindcss.com)
+5. [Dark mode animation](https://akashhamirwasia.com/blog/full-page-theme-toggle-animation-with-view-transitions-api/)
