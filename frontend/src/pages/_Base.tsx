@@ -34,7 +34,7 @@ const Base = () => {
   }, [setSelectedIdx, location.pathname]); // eslint-disable-line
 
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-900">
+    <div className="h-screen w-screen bg-white dark:bg-slate-900">
       <div className="w-5/6 mx-auto relative ">
         <div className="sm:hidden">
           <select
