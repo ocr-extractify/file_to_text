@@ -38,12 +38,12 @@ function UploadFilesPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (e.currentTarget.files.files.length === 0) {
+    if (files.length === 0) {
       toast.error(NO_FILE);
       return;
     }
 
-    const filesArray: File[] = Array.from(e.currentTarget.files.files);
+    const filesArray: File[] = Array.from(files);
     Promise.all(
       filesArray.map((file: File) => {
         return uploadFileMutation.mutateAsync(file);
@@ -74,11 +74,11 @@ function UploadFilesPage() {
           </Button>
         </form>
       ) : (
-        <>
+        <div className="space-y-10 divide-y-2">
           {results.map((result) => (
             <Result result={result} />
           ))}
-        </>
+        </div>
       )}
     </div>
   );

@@ -6,9 +6,13 @@ export const DESCRIPTION: string =
 export const FILES_INPUT_LABEL: string = 'Files';
 export const UPLOAD_FILE: string = 'Upload a file';
 export const OR_DRAG_AND_DROP: string = 'or drag and drop';
-export const FILE_INPUT_MIMETYPES: string = `${VALID_MIMETYPES.join(
-  ', ',
-)} up to ${(MAX_FILE_SIZE / 1024 / 1024).toString()}MB`;
+export const FILE_INPUT_MIMETYPES: string = `${VALID_MIMETYPES.join(', ')
+  .replaceAll('image/', '')
+  .replaceAll('application/', '')} up to ${(
+  MAX_FILE_SIZE /
+  1024 /
+  1024
+).toString()}MB`;
 export const SUBMIT_BUTTON: string = 'Convert to text';
 export const FILENAME: string = 'Filename';
 export const FILESIZE: string = 'Filesize';

@@ -8,7 +8,7 @@ import {
 
 const Skeleton = () => {
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-white dark:bg-gray-900">
       <div className="lg:px-8">
         <div className="relative mx-auto px-4 sm:px-6 lg:px-0 space-y-2">
           <div className="pt-12 sm:pt-16 lg:pt-20 space-y-2">

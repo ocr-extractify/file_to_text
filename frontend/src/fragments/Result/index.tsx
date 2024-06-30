@@ -21,14 +21,14 @@ const Result = ({ result, isLoading }: Props) => {
   }
 
   return (
-    <div className="relative bg-white dark:bg-gray-900">
-      <div className="relative mx-auto space-y-2">
-        <div className="pt-3 sm:pt-4 lg:pt-20 space-y-2">
-          <h2 className="text-3xl text-gray-900 dark:text-white font-extrabold tracking-tight sm:text-4xl">
+    <div className="bg-white dark:bg-gray-900">
+      <div className="mx-auto space-y-2 ">
+        <div className="pt-3 sm:pt-4 lg:pt-20 space-y-2 ">
+          <h2 className="text-2xl sm:text-4xl text-gray-900 dark:text-white font-extrabold tracking-tight truncate">
             {result.name}
           </h2>
 
-          <h3 className="text-base font-medium text-gray-500 dark:text-gray-200">
+          <h3 className="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-200">
             {new Date(result.created_at).toLocaleString()}
           </h3>
         </div>
@@ -36,28 +36,28 @@ const Result = ({ result, isLoading }: Props) => {
         <TextArea
           data={result.analysis.text || ''}
           label="Text"
-          className="h-48"
+          className="h-48 text-sm sm:text-base"
           readOnly
         />
 
         <div className="mt-10">
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8">
-            <div className="border-t-2 border-gray-100 pt-6">
-              <dt className="text-2xl font-medium text-gray-500 dark:text-gray-300">
+            <div className="pt-6">
+              <dt className="text-md sm:text-2xl font-medium text-gray-500 dark:text-gray-300">
                 {ANALYZED_FILE_CONFIDENCE}
               </dt>
-              <dd className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+              <dd className="text-base sm:text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                 {toPercentage(
                   result.analysis?.pages?.[0].layout?.confidence || 0,
                 )}
               </dd>
             </div>
 
-            <div className="border-t-2 border-gray-100 pt-6 grid">
-              <dt className="text-2xl font-medium text-gray-500 dark:text-gray-300">
+            <div className="pt-6">
+              <dt className="text-md sm:text-2xl font-medium text-gray-500 dark:text-gray-300">
                 {ANALYZED_FILE_DETECTED_LANGUAGES}
               </dt>
-              <dd className="text-base font-medium tracking-tight text-gray-900 dark:text-white">
+              <dd className="text-sm sm:text-base font-medium tracking-tight text-gray-900 dark:text-white">
                 <div className="space-y-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {result.analysis?.pages?.[0]?.detectedLanguages?.map((dl) => (
                     <div

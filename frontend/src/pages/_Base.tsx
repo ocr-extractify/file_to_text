@@ -29,21 +29,28 @@ const Base = () => {
     },
   ];
 
-  console.log('filesCount', filesCount);
-
   useEffect(() => {
     setSelectedIdx(TABS.findIndex((tab) => tab.href === location.pathname));
   }, [setSelectedIdx, location.pathname]); // eslint-disable-line
 
   return (
-    <div className="h-screen w-screen bg-white dark:bg-slate-900">
-      <div className="w-full sm:w-5/6 h-full mx-auto relative ">
+    <div className="w-full h-full bg-white dark:bg-slate-900 overflow-x-hidden">
+      <div className="w-5/6 h-full mx-auto relative py-2">
         <div className="sm:hidden w-full h-full">
-          <TabGroup selectedIndex={selectedIdx} className="w-full h-full">
-            <TabList className="flex space-x-8">
-              <div
-                className={`absolute bottom-0 w-full grid grid-cols-${TABS.length}`}
-              >
+          <TabGroup
+            selectedIndex={selectedIdx}
+            className="flex flex-col justify-between w-full h-full"
+          >
+            <TabPanels className="flex flex-col justify-center ">
+              {TABS.map((tab) => (
+                <TabPanel key={tab.href} className="py-10 ">
+                  <Outlet />
+                </TabPanel>
+              ))}
+            </TabPanels>
+
+            <TabList>
+              <div className={`w-full grid grid-cols-2`}>
                 {TABS.map((tab) => (
                   <Tab
                     key={tab.href}
@@ -56,14 +63,6 @@ const Base = () => {
                 ))}
               </div>
             </TabList>
-
-            <TabPanels className="w-full h-full flex justify-center items-center">
-              {TABS.map((tab) => (
-                <TabPanel key={tab.href}>
-                  <Outlet />
-                </TabPanel>
-              ))}
-            </TabPanels>
           </TabGroup>
         </div>
 

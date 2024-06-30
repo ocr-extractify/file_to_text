@@ -50,9 +50,9 @@ const FilesPage = () => {
           key={file._id}
           className="mt-4 rounded-md p-2 shadow-md shadow-indigo-100 dark:shadow-indigo-900 flex justify-between dark:text-white"
         >
-          <span className="font-medium">{file.name}</span>
+          <span className="font-medium truncate">{file.name}</span>
 
-          <div>
+          <div className="flex">
             <IconButton
               onClick={() => {
                 deleteMutation.mutateAsync(file._id);
