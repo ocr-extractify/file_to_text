@@ -1,3 +1,9 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
 .skeleton {
   width: 80%;
   padding: 1rem 0;
