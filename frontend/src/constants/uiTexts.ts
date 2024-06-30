@@ -29,3 +29,4 @@ export const FILES_TAB: string = 'Files';
 export const DROP_FILES: string = 'Drop files here';
 export const NO_FILES: string = 'No files';
 export const GET_STARTED: string = 'Get started by uploading a file';
+export const SEARCH_INPUT_DEFAULT_PLACEHOLDER: string = 'Search...';

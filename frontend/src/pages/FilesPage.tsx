@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import IconButton from '@/components/buttons/IconButton';
 import { APIFile } from '@/utils/types';
 import { useFilesStore } from '@/utils/zustandStorage';
@@ -10,10 +11,16 @@ import { GET_STARTED, NO_FILES } from '@/constants/uiTexts';
 import Button from '@/components/buttons/Button';
 import { LuImagePlus } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa6';
+import SearchInput from '@/components/inputs/SearchInput';
 
 const FilesPage = () => {
+  const [query, setQuery] = useState('');
   const nav = useNavigate();
-  const files = useFilesStore((state) => state.files);
+  const files = useFilesStore((state) =>
+    state.files.filter((file) =>
+      file.name.toLowerCase().includes(query.toLowerCase()),
+    ),
+  );
   const removeFile = useFilesStore((state) => state.remove);
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -24,7 +31,9 @@ const FilesPage = () => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-4">
+      <SearchInput setQuery={setQuery} />
+
       {files.length === 0 && (
         <div className="flex flex-col justify-center items-center sm:pt-20">
           <LuImagePlus className="h-12 w-12 text-gray-400" />
