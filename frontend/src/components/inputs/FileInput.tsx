@@ -85,13 +85,13 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
   return (
     <div {...getRootProps()}>
       {isDragActive && (
-        <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex flex-col justify-center items-center">
+        <div className="absolute inset-0 bg-gray-100 bg-opacity-75 flex flex-col justify-center items-center">
           <LuImagePlus
-            className="mx-auto h-12 w-12 text-gray-400"
+            className="mx-auto h-12 w-12 text-gray-900"
             stroke="currentColor"
             fill="none"
           />
-          <p className="text-lg font-medium text-gray-600">{DROP_FILES}</p>
+          <p className="text-lg font-medium text-gray-900">{DROP_FILES}</p>
         </div>
       )}
 
@@ -107,7 +107,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
                     fill="none"
                   />
 
-                  <div className="flex justify-center text-sm text-gray-600">
+                  <div className="flex justify-center text-sm text-gray-700 dark:text-gray-100">
                     <span>{UPLOAD_FILE}</span>
                     <input
                       id={id}
@@ -120,7 +120,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
 
                     <p className="pl-1">{OR_DRAG_AND_DROP}</p>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-300">
                     {FILE_INPUT_MIMETYPES}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
           {files.map((file) => (
             <li
               key={file.name}
-              className="flex flex-col justify-between border rounded-md p-2 font-medium relative pr-10"
+              className="flex flex-col justify-between border rounded-md p-2 font-medium relative pr-10 text-gray-900 dark:text-gray-300"
             >
               <span className="w-full flex justify-between">
                 <span>{FILENAME}</span>

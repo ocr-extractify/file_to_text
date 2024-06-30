@@ -28,10 +28,12 @@ const FilesPage = () => {
       {files.length === 0 && (
         <div className="flex flex-col justify-center items-center mt-20">
           <LuImagePlus className="h-12 w-12 text-gray-400" />
-          <h2 className="text-gray-900 mt-2 text-sm font-medium ">
+          <h2 className="text-gray-900 dark:text-gray-100 mt-2 text-sm font-medium ">
             {NO_FILES}
           </h2>
-          <h3 className="text-gray-500 mt-1 text-sm">{GET_STARTED}</h3>
+          <h3 className="text-gray-500 dark:text-gray-300 mt-1 text-sm">
+            {GET_STARTED}
+          </h3>
 
           <Button
             className="mt-2 flex items-center"

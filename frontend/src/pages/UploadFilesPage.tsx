@@ -11,6 +11,7 @@ import { APIFile } from '@/utils/types';
 import Result from '@/fragments/Result';
 import { FileStoreState } from '@/utils/zustandStorage/types';
 import { NO_FILE } from '@/constants/errorsMsgs';
+import { RxTextAlignTop } from 'react-icons/rx';
 
 function UploadFilesPage() {
   const [results, setResults] = useState<null | APIFile[]>(null);
@@ -53,7 +54,10 @@ function UploadFilesPage() {
   return (
     <div className="mx-auto">
       {!results ? (
-        <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+        <form
+          className="w-3/6 flex flex-col mx-auto mt-10"
+          onSubmit={handleSubmit}
+        >
           <FileInput
             id="files"
             files={files}
@@ -62,10 +66,11 @@ function UploadFilesPage() {
             accept={VALID_MIMETYPES.join(',')}
           />
           <Button
-            className="mt-2 uppercase"
+            className="w-fit mt-2 font-medium mx-auto space-x-2 flex items-center"
             isLoading={uploadFileMutation.isPending}
           >
-            {SUBMIT_BUTTON}
+            <span>{SUBMIT_BUTTON}</span>
+            <RxTextAlignTop className="w-5 h-5 flex items-end" />
           </Button>
         </form>
       ) : (
