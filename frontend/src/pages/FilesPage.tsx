@@ -26,7 +26,7 @@ const FilesPage = () => {
   return (
     <div className="space-y-4">
       {files.length === 0 && (
-        <div className="flex flex-col justify-center items-center mt-20">
+        <div className="flex flex-col justify-center items-center sm:pt-20">
           <LuImagePlus className="h-12 w-12 text-gray-400" />
           <h2 className="text-gray-900 dark:text-gray-100 mt-2 text-sm font-medium ">
             {NO_FILES}

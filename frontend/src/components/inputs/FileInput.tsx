@@ -107,7 +107,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
                     fill="none"
                   />
 
-                  <div className="flex justify-center text-sm text-gray-700 dark:text-gray-100">
+                  <div className="flex flex-col sm:flex-row justify-center text-sm text-gray-700 dark:text-gray-100">
                     <span>{UPLOAD_FILE}</span>
                     <input
                       id={id}

@@ -55,7 +55,7 @@ function UploadFilesPage() {
     <div className="mx-auto">
       {!results ? (
         <form
-          className="w-3/6 flex flex-col mx-auto mt-10"
+          className="w-3/6 flex flex-col mx-auto sm:pt-10"
           onSubmit={handleSubmit}
         >
           <FileInput
