@@ -25,7 +25,7 @@ const Icons = ({ data }: Props) => {
   }
 
   return (
-    <div className="absolute right-4 top-2">
+    <div className="absolute right-4 top-2 text-black dark:text-gray-200">
       <IconButton onClick={copy}>
         <MdCopyAll className="w-5 h-5" />
       </IconButton>

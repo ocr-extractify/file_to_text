@@ -23,7 +23,7 @@ const TextArea = ({ data, label, className, ...rest }: Props) => {
 
           <Textarea
             className={twMerge(
-              `block w-full p-3 border-0 focus:ring-0 sm:text-sm`,
+              `block w-full p-3 border-0 focus:ring-0 sm:text-sm bg-white dark:bg-slate-900 text-black dark:text-white`,
               className,
             )}
             {...rest}

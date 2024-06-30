@@ -48,7 +48,7 @@ const FilesPage = () => {
       {files.map((file: APIFile) => (
         <div
           key={file._id}
-          className="rounded-md p-2 shadow-md shadow-indigo-100 flex justify-between"
+          className="mt-4 rounded-md p-2 shadow-md shadow-indigo-100 dark:shadow-indigo-900 flex justify-between dark:text-white"
         >
           <span className="font-medium">{file.name}</span>
 
