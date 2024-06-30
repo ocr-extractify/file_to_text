@@ -68,7 +68,7 @@ const DarkModeToggle = ({ className }: Props) => {
   return (
     <button
       onClick={toggleDarkMode}
-      className={`p-2 rounded-full transition duration-300 ease-in-out transform shadow-md shadow-indigo-300 ${
+      className={`p-2 rounded-full transition duration-300 ease-in-out transform shadow-sm shadow-indigo-300 ${
         darkMode ? 'bg-black text-white' : 'bg-white text-black'
       } ${className}`}
       ref={ref}
