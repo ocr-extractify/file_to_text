@@ -5,3 +5,4 @@
 5. [Analyzed Document Class - Google Document AI](https://cloud.google.com/php/docs/reference/cloud-document-ai/1.7.0/V1.Document)
 6. [conventional-commits-pattern](https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657)
 7. [convetional-commits-pattern](https://www.conventionalcommits.org/en/v1.0.0/)
+8. [fastapi deployment with docker](https://fastapi.tiangolo.com/deployment/docker/)
