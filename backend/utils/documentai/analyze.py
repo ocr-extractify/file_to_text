@@ -1,10 +1,9 @@
 import json
 from fastapi import UploadFile
 from google.api_core.client_options import ClientOptions
-from google.cloud import documentai
+from google.cloud import documentai_v1 as documentai
 from config import config
 from constants.errors_texts import INVALID_FILE_MIMETYPE
-from google.cloud.documentai_v1 import Document
 
 
 async def analyze_file(file: UploadFile):
@@ -45,4 +44,4 @@ async def analyze_file(file: UploadFile):
     result = client.process_document(request=request)
     document = result.document
 
-    return json.loads(Document.to_json(document))
+    return json.loads(documentai.Document.to_json(document))
