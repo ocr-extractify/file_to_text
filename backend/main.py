@@ -6,7 +6,7 @@ from routes.test import test_router
 from utils.middlewares import ExceptionHandlerMiddleware
 
 app = FastAPI(
-    title="Files to text",
+    title="File to text",
     version="1.0.0",
 )
 
@@ -21,8 +21,3 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(ExceptionHandlerMiddleware)
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("main:app", host="127.0.0.1", port=8001, reload=True)

@@ -11,4 +11,6 @@ COPY . /app
 ENV GOOGLE_APPLICATION_CREDENTIALS /app/g_document_ai_creds.json
 ENV MONGODB_URL mongodb://file_to_text_db:27017
 
+EXPOSE 8000
+
 CMD ["fastapi", "run", "main.py", "--port", "8000"]

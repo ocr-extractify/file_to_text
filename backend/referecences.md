@@ -10,3 +10,4 @@
 10. [fastapi deployment with docker](https://fastapi.tiangolo.com/deployment/docker/)
 11. [fullstack fastapi app](https://github.com/tiangolo/full-stack-fastapi-template/blob/master/docker-compose.yml)
 12. [neterr-name-not-resolved-in-browser-using-docker-compose](https://stackoverflow.com/questions/76983550/neterr-name-not-resolved-in-browser-using-docker-compose)
+13. ["Unknown host" error calling containerized backend from frontend](https://stackoverflow.com/questions/77060233/unknown-host-error-calling-containerized-backend-from-frontend)

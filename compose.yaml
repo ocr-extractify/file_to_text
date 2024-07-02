@@ -1,50 +1,41 @@
 services: 
   frontend:
-    container_name: file_to_text_frontend
-    build:
-      context: ./frontend
-    restart: always
-    ports:
-      - 80:80
+    build: ./frontend
+    ports: ['3001:80']
     secrets: 
       - frontend_secret
-    depends_on: 
-      - backend
-    networks: 
-      - frontend-backend-net
+    # networks: 
+      #  - frontend-backend-net
 
   backend:
-    container_name: file_to_text_backend
     build: 
       context: ./backend
       target: builder
-    restart: always
+    ports: ['3002:8000']
     secrets: 
       - backend_secret
-    depends_on: 
-      - mongodb
-    ports: 
-      - 8000:8000
-    networks:
-      - backend-db-net
-      - frontend-backend-net
-    expose: 
-      - 8000
+    # networks:
+    #  - backend-db-net
+      # - frontend-backend-net
+    # expose:
+    #   - 8000
 
   mongodb:
-    container_name: file_to_text_db
     image: mongo:7.0
-    restart: always
     volumes:
       - mongodb:/data/db
-    networks:
-      - backend-db-net
-    expose: 
-      - 27017
+    # networks:
+    #  - backend-db-net
+    # expose: 
+    #   - 27017
 
-networks:
-  frontend-backend-net: 
-  backend-db-net:
+  proxy: 
+    build: ./proxy
+    ports: ['3000:80']
+
+# networks:
+#   frontend-backend-net: 
+#   backend-db-net:
 
 secrets: 
   frontend_secret: 
