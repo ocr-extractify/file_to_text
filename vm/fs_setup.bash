@@ -1,12 +1,15 @@
-$APP_PATH="/home/projects/files_to_text/"
-$GITHUB_REPO="https://github.com/vittxr/files_to_text"
+APP_PATH="/home/projects/"
+GITHUB_REPO="https://github.com/vittxr/file_to_text"
+PROJECT_NAME="file_to_text"
 
-if [ -z $APP_PATH ]; then
-    mkdir -p $APP_PATH
+
+if [ ! -d "$APP_PATH" ]; then
+    mkdir -p "$APP_PATH"
 fi
 
-cd $APP_PATH
-git clone $GITHUB_REPO
+cd "$APP_PATH"
+git clone "$GITHUB_REPO"
 
-rm -rf vm/ 
+cd "$PROJECT_NAME"
 
+rm -rf vm/
