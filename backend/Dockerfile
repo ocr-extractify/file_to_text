@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY . /app
 
 ENV GOOGLE_APPLICATION_CREDENTIALS /app/g_document_ai_creds.json
-ENV MONGODB_URL mongodb://file_to_text_db:27017
+ENV MONGODB_URL mongodb://mongodb:27017
 
 EXPOSE 8000
 
