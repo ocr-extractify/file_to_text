@@ -1,7 +1,7 @@
 from bson import ObjectId
 from routes.files import files_router
 from fastapi import UploadFile, status
-from db import files_collection
+from db import db
 from db.schemas.files import FileModel
 from utils.documentai.analyze import analyze_file
 from utils.documentai.clean import clean_document_ai_analysis
@@ -16,4 +16,4 @@ from utils.documentai.clean import clean_document_ai_analysis
 async def delete(id: str):
     doc_to_update = {"_id": ObjectId(id)}
     data = {"$set": {"is_deleted": True}}
-    files_collection.update_one(doc_to_update, data)
+    db.get_collection("files").update_one(doc_to_update, data)
