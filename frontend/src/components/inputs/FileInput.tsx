@@ -8,11 +8,10 @@ import {
   OR_DRAG_AND_DROP,
   UPLOAD_FILE,
 } from '@/constants/uiTexts';
-import { ComponentProps, useCallback } from 'react';
+import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '../buttons/IconButton';
-import { useDropzone } from 'react-dropzone';
 import { LuImagePlus } from 'react-icons/lu';
 
 interface Props extends ComponentProps<'input'> {
@@ -22,6 +21,9 @@ interface Props extends ComponentProps<'input'> {
 }
 
 const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const dragCounter = useRef(0);
+
   const isValidMimetype = useCallback(
     async (mimetype: string): Promise<boolean> => {
       if (VALID_MIMETYPES.includes(mimetype)) return true;
@@ -70,21 +72,56 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
     [addFiles],
   );
 
-  const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      addFiles(acceptedFiles);
-    },
-    [addFiles],
-  );
+  const handleDrag = useCallback((event: DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: handleDrop,
-    noClick: true,
+  const handleDrop = useCallback((event: DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragging(false);
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      dragCounter.current = 0;
+      event.dataTransfer.clearData();
+      setFiles((prevState) => [...prevState, ...event.dataTransfer!.files]);
+    }
+  }, [setFiles]);
+
+
+  const handleDragIn = useCallback((event: DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dragCounter.current++;
+    if (event.dataTransfer?.items && event.dataTransfer.items.length > 0) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const handleDragOut = useCallback((event: DragEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dragCounter.current--;
+    if (dragCounter.current > 0) return;
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("dragenter", handleDragIn);
+    window.addEventListener("dragleave", handleDragOut);
+    window.addEventListener("dragover", handleDrag);
+    window.addEventListener("drop", handleDrop);
+    return function cleanUp() {
+      window.removeEventListener("dragenter", handleDragIn);
+      window.removeEventListener("dragleave", handleDragOut);
+      window.removeEventListener("dragover", handleDrag);
+      window.removeEventListener("drop", handleDrop);
+    };
   });
 
   return (
-    <div {...getRootProps()}>
-      {isDragActive && (
+    <div>
+      {isDragging && (
         <div className="w-full absolute inset-0 bg-gray-100 bg-opacity-25 flex flex-col justify-center items-center">
           <LuImagePlus
             className="mx-auto h-12 w-12 text-gray-100"
@@ -115,11 +152,10 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
                       className="sr-only"
                       onChange={handleChange}
                       {...rest}
-                      {...getInputProps()}
                     />
 
                     <p className="pl-1">{OR_DRAG_AND_DROP}</p>
-                  </div>
+                  </div>                  
                   <p className="text-xs text-gray-500 dark:text-gray-300">
                     {FILE_INPUT_MIMETYPES}
                   </p>
