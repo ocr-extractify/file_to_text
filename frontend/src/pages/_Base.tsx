@@ -35,7 +35,7 @@ const Base = () => {
 
   return (
     <div className="w-full h-full bg-white dark:bg-slate-900 overflow-x-hidden">
-      <div className="w-5/6 h-full mx-auto relative py-2">
+      <div className="w-5/6 h-full mx-auto py-2">
         <div className="sm:hidden w-full h-full">
           <TabGroup
             selectedIndex={selectedIdx}
@@ -55,7 +55,7 @@ const Base = () => {
                   <Tab
                     key={tab.href}
                     onClick={() => nav(tab.href)}
-                    className=" border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-300 group inline-flex justify-center items-center py-4 px-1 border-b-2 font-medium text-sm outline-none data-[selected]:border-indigo-500 data-[selected]:text-indigo-600 dark:data-[selected]:border-indigo-100 dark:data-[selected]:text-indigo-200 flex-col"
+                    className="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-300 group inline-flex justify-center items-center py-4 px-1 border-b-2 font-medium text-sm outline-none data-[selected]:border-indigo-500 data-[selected]:text-indigo-600 dark:data-[selected]:border-indigo-100 dark:data-[selected]:text-indigo-200 flex-col"
                   >
                     <tab.icon className="w-5 h-5" />
                     {tab.label}
@@ -96,7 +96,8 @@ const Base = () => {
           </TabGroup>
         </div>
 
-        <DarkModeToggle className="absolute top-4 right-2" />
+        {/** 16.67 / 2 ~= 8.35 - where 16.67 is the remaining screen space outside the component width w-5/6 */}
+        <DarkModeToggle className="absolute top-4 right-[8.35%]" />
       </div>
     </div>
   );

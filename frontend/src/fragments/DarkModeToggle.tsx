@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
 import { IoMdSunny } from 'react-icons/io';
 import { IoMdMoon } from 'react-icons/io';
+
 type Props = {
   className?: string;
 };
@@ -53,8 +54,6 @@ const DarkModeToggle = ({ className }: Props) => {
         pseudoElement: '::view-transition-new(root)',
       },
     );
-
-    console.log('document', document.documentElement);
   };
 
   useEffect(() => {

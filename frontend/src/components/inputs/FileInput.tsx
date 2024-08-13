@@ -85,13 +85,13 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
   return (
     <div {...getRootProps()}>
       {isDragActive && (
-        <div className="absolute inset-0 bg-gray-100 bg-opacity-75 flex flex-col justify-center items-center">
+        <div className="w-full absolute inset-0 bg-gray-100 bg-opacity-25 flex flex-col justify-center items-center">
           <LuImagePlus
-            className="mx-auto h-12 w-12 text-gray-900"
+            className="mx-auto h-12 w-12 text-gray-100"
             stroke="currentColor"
             fill="none"
           />
-          <p className="text-lg font-medium text-gray-900">{DROP_FILES}</p>
+          <p className="text-lg font-medium text-gray-100">{DROP_FILES}</p>
         </div>
       )}
 
