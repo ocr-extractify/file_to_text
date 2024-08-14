@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body,
 #root {
@@ -27,7 +31,3 @@ body,
   animation: none;
   mix-blend-mode: normal;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
