@@ -1,5 +1,5 @@
 from routes.files import files_router
-from fastapi import UploadFile, status
+from fastapi import UploadFile, status, Request
 from db import db
 from schemas.files import FileModel
 from utils.documentai.analyze import analyze_file
@@ -12,10 +12,12 @@ from utils.documentai.clean import clean_document_ai_analysis
     status_code=status.HTTP_201_CREATED,
     response_model=FileModel,
 )
-async def upload(file: UploadFile):
+async def upload(file: UploadFile, request: Request):
     analyzed_file = await analyze_file(file)
     analyzed_file = await clean_document_ai_analysis(analyzed_file)
-    file = FileModel(name=file.filename, analysis=analyzed_file)
+    file = FileModel(
+        name=file.filename, analysis=analyzed_file, client_ip=request.client.host
+    )
     file_dict = file.model_dump(by_alias=True, exclude=["id"])
     new_db_file = await db.get_collection("files").insert_one(file_dict)
     created_file = await db.get_collection("files").find_one(

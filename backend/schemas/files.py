@@ -11,6 +11,7 @@ class FileModel(BaseModel):
     analysis: dict = Field()
     created_at: datetime = Field(default=datetime.now())
     is_deleted: bool = Field(default=0)
+    client_ip: str
 
     model_config = ConfigDict(
         json_schema_extra={
