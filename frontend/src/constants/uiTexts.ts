@@ -30,3 +30,12 @@ export const DROP_FILES: string = 'Drop files here';
 export const NO_FILES: string = 'No files';
 export const GET_STARTED: string = 'Get started by uploading a file';
 export const SEARCH_INPUT_DEFAULT_PLACEHOLDER: string = 'Search...';
+export const STATS: string = 'Uploaded files - Stats';
+export const STATS_DESCRIPTION: string =
+  'Here you are seeing the overall stats of uploaded files of this app.';
+export const TOTAL: string = 'Total';
+export const TODAY: string = 'Today';
+export const THIS_WEEK: string = 'This week';
+export const THIS_MONTH: string = 'This month';
+export const QUOTA_LIMIT_DESCRIPTION: string =
+  'If the quota limit is reached, you will not be able to upload more files.';
