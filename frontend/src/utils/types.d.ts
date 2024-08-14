@@ -58,11 +58,30 @@ export type GoogleDocumentAiAnalysis = {
 };
 
 /**
- * Represents a file object retrieve from API..
+ * Represents the response from an API call.
+ * @template T - The type of the data in the response.
+ */
+export type APIResponse<T> = {
+  data: T;
+  // count: number; -> it may be implemented in the future
+};
+
+/**
+ * Represents a file object retrieve from API.
  */
 export type APIFile = {
   _id: string;
   name: string;
   created_at: string;
   analysis: GoogleDocumentAiAnalysis;
+};
+
+/**
+ * Represents the statistics of the API.
+ */
+export type APIStats = {
+  uploaded_files_qty: number;
+  uploaded_files_qty_today: number;
+  uploaded_files_qty_week: number;
+  uploaded_files_qty_month: number;
 };

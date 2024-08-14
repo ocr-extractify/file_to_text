@@ -56,7 +56,8 @@ const Base = () => {
             </TabPanels>
 
             <TabList>
-              <div className={`w-full grid grid-cols-2`}>
+              {/** the number of grid cols should be the same of TABS.length */}
+              <div className={`w-full grid grid-cols-3`}>
                 {TABS.map((tab) => (
                   <Tab
                     key={tab.href}
