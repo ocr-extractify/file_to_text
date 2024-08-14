@@ -11,7 +11,7 @@ import {
 import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IoClose } from 'react-icons/io5';
-import IconButton from '../buttons/IconButton';
+import IconButton from '@/components/buttons/IconButton';
 import { LuImagePlus } from 'react-icons/lu';
 
 interface Props extends ComponentProps<'input'> {
@@ -87,7 +87,6 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
       setFiles((prevState) => [...prevState, ...event.dataTransfer!.files]);
     }
   }, [setFiles]);
-
 
   const handleDragIn = useCallback((event: DragEvent) => {
     event.preventDefault();
