@@ -8,7 +8,13 @@ import {
   OR_DRAG_AND_DROP,
   UPLOAD_FILE,
 } from '@/constants/uiTexts';
-import { ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { toast } from 'react-toastify';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '@/components/buttons/IconButton';
@@ -77,16 +83,19 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
     event.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback((event: DragEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setIsDragging(false);
-    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-      dragCounter.current = 0;
-      event.dataTransfer.clearData();
-      setFiles((prevState) => [...prevState, ...event.dataTransfer!.files]);
-    }
-  }, [setFiles]);
+  const handleDrop = useCallback(
+    (event: DragEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setIsDragging(false);
+      if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+        dragCounter.current = 0;
+        event.dataTransfer.clearData();
+        setFiles((prevState) => [...prevState, ...event.dataTransfer!.files]);
+      }
+    },
+    [setFiles],
+  );
 
   const handleDragIn = useCallback((event: DragEvent) => {
     event.preventDefault();
@@ -106,28 +115,29 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("dragenter", handleDragIn);
-    window.addEventListener("dragleave", handleDragOut);
-    window.addEventListener("dragover", handleDrag);
-    window.addEventListener("drop", handleDrop);
+    window.addEventListener('dragenter', handleDragIn);
+    window.addEventListener('dragleave', handleDragOut);
+    window.addEventListener('dragover', handleDrag);
+    window.addEventListener('drop', handleDrop);
+
     return function cleanUp() {
-      window.removeEventListener("dragenter", handleDragIn);
-      window.removeEventListener("dragleave", handleDragOut);
-      window.removeEventListener("dragover", handleDrag);
-      window.removeEventListener("drop", handleDrop);
+      window.removeEventListener('dragenter', handleDragIn);
+      window.removeEventListener('dragleave', handleDragOut);
+      window.removeEventListener('dragover', handleDrag);
+      window.removeEventListener('drop', handleDrop);
     };
   });
 
   return (
     <div>
       {isDragging && (
-        <div className="w-full absolute inset-0 bg-gray-100 bg-opacity-25 flex flex-col justify-center items-center">
+        <div className="w-full absolute inset-0 bg-gray-300 dark:bg-gray-900 opacity-75 flex flex-col justify-center items-center z-50">
           <LuImagePlus
-            className="mx-auto h-12 w-12 text-gray-100"
+            className="mx-auto h-12 w-12"
             stroke="currentColor"
             fill="none"
           />
-          <p className="text-lg font-medium text-gray-100">{DROP_FILES}</p>
+          <p className="text-lg font-medium">{DROP_FILES}</p>
         </div>
       )}
 
@@ -154,7 +164,7 @@ const FileInput = ({ id, files, setFiles, ...rest }: Props) => {
                     />
 
                     <p className="pl-1">{OR_DRAG_AND_DROP}</p>
-                  </div>                  
+                  </div>
                   <p className="text-xs text-gray-500 dark:text-gray-300">
                     {FILE_INPUT_MIMETYPES}
                   </p>
