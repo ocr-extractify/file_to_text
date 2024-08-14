@@ -1,7 +1,8 @@
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, ConfigDict, Field
-from db.schemas import PyObjectId
+from typing import Optional, Annotated
+from pydantic import BaseModel, ConfigDict, Field, BeforeValidator
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
 class FileModel(BaseModel):
