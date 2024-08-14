@@ -4,17 +4,10 @@ import {
   STATS_DESCRIPTION,
   QUOTA_LIMIT_DESCRIPTION,
 } from '@/constants/uiTexts';
-import { httpClient } from '@/utils/axios';
-import { useQuery } from '@tanstack/react-query';
 import StatsCard from './fragments/StatsCard';
-import { APIResponse, APIStats } from '@/utils/types';
+import DailyUploadsChart from './fragments/DailyUploadsChart';
 
 const StatsPage = () => {
-  const uploadStats = useQuery<APIResponse<APIStats>>({
-    queryKey: ['uploadStats'],
-    queryFn: () => httpClient.get('/stats/'),
-  });
-
   return (
     <div>
       <Alert variant="warn" className="mb-5">
@@ -25,7 +18,8 @@ const StatsPage = () => {
         {STATS_DESCRIPTION}
       </h2>
 
-      <StatsCard uploadStats={uploadStats} />
+      <StatsCard />
+      <DailyUploadsChart />
     </div>
   );
 };
