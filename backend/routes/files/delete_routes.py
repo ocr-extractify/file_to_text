@@ -2,7 +2,7 @@ from bson import ObjectId
 from routes.files import files_router
 from fastapi import UploadFile, status
 from db import db
-from db.schemas.files import FileModel
+from schemas.files import FileModel
 from utils.documentai.analyze import analyze_file
 from utils.documentai.clean import clean_document_ai_analysis
 

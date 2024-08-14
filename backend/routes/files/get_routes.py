@@ -2,7 +2,7 @@ from constants.errors_texts import FILE_NOT_FOUND, INVALID_FILE_ID
 from routes.files import files_router
 from fastapi import HTTPException, status
 from db import db
-from db.schemas.files import FileModel, FilesCollection
+from schemas.files import FileModel, FilesCollection
 from bson import ObjectId
 
 
