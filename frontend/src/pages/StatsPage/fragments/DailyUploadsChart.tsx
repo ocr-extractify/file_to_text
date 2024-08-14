@@ -36,7 +36,7 @@ const DailyUploadsChart = () => {
       const dateStr = date.toISOString().split('T')[0];
 
       return {
-        queryKey: ['dailyUploads', date.toISOString()],
+        queryKey: ['dailyUploads', dateStr],
         queryFn: async () => {
           return httpClient.get(
             `/stats/by_date_interval/?start_date=${dateStr}`,
