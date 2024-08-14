@@ -3,17 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import UploadFilesPage from '@/pages/UploadFilesPage.tsx';
 import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-
 import '@/main.css';
-import FilesPage from './pages/FilesPage';
-import FilePage from './pages/FilePage';
-import Base from './pages/_Base';
+import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base } from '@/pages';
 
 const queryClient = new QueryClient();
 
@@ -37,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/files/:id',
         element: <FilePage />,
+      },
+      {
+        path: '/stats',
+        element: <StatsPage />,
       },
     ],
   },

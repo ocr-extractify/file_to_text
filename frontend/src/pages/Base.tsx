@@ -2,6 +2,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { FILES_TAB, UPLOAD_FILES_TAB } from '@/constants/uiTexts';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { IoCloudUpload } from 'react-icons/io5';
+import { MdOutlineQueryStats } from 'react-icons/md';
 import { PiFilesFill } from 'react-icons/pi';
 import { useFilesStore } from '@/utils/zustandStorage';
 import { FileStoreState } from '@/utils/zustandStorage/types';
@@ -26,6 +27,11 @@ const Base = () => {
       label: FILES_TAB,
       icon: PiFilesFill,
       badge: filesCount,
+    },
+    {
+      href: '/stats',
+      label: 'Stats',
+      icon: MdOutlineQueryStats,
     },
   ];
 
