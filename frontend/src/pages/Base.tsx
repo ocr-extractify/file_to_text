@@ -40,7 +40,7 @@ const Base = () => {
   }, [setSelectedIdx, location.pathname]); // eslint-disable-line
 
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-900 overflow-x-hidden">
+    <div className="w-full h-full bg-white dark:bg-slate-950 text-black dark:text-white overflow-x-hidden">
       <div className="w-5/6 h-full mx-auto py-2">
         <div className="sm:hidden w-full h-full">
           <TabGroup
@@ -95,7 +95,9 @@ const Base = () => {
             <TabPanels>
               {TABS.map((tab) => (
                 <TabPanel key={tab.href}>
-                  <Outlet />
+                  <div className="mt-4">
+                    <Outlet />
+                  </div>
                 </TabPanel>
               ))}
             </TabPanels>
