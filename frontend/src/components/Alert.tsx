@@ -37,7 +37,9 @@ export default function Alert({
   return (
     <div
       className={twMerge(
-        `p-4 rounded-md bg-${colors[variant] || variant}-50`,
+        `p-4 rounded-md bg-${colors[variant] || variant}-50 dark:bg-${
+          colors[variant] || variant
+        }-950`,
         className,
       )}
     >
@@ -51,7 +53,11 @@ export default function Alert({
           )}
         </div>
         <div className="ml-3">
-          <div className={`text-sm text-${colors[variant] || variant}-700`}>
+          <div
+            className={`text-sm text-${
+              colors[variant] || variant
+            }-700 dark:text-${colors[variant] || variant}-50`}
+          >
             {children}
           </div>
         </div>
