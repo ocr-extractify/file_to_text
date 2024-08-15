@@ -40,7 +40,7 @@ const DailyUploadsChart = () => {
         queryKey: ['dailyUploads', dateStr],
         queryFn: async () => {
           return httpClient.get(
-            `/stats/by_date_interval/?start_date=${dateStr}`,
+            `/stats/by_date_interval?start_date=${dateStr}`,
           );
         },
       };
