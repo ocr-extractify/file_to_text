@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Union
 from pydantic import BaseModel, ConfigDict, Field, BeforeValidator
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
@@ -10,7 +10,7 @@ class FileModel(BaseModel):
     name: str = Field()
     analysis: dict = Field()
     created_at: datetime = Field(default=datetime.now())
-    is_deleted: bool = Field(default=0)
+    is_deleted: Union[bool, int] = Field(default=0)
     client_ip: str
 
     model_config = ConfigDict(
