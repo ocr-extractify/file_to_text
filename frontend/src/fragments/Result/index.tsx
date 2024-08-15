@@ -21,9 +21,9 @@ const Result = ({ result, isLoading }: Props) => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div className="bg-white dark:bg-slate-900 p-4 rounded-md shadow-md">
       <div className="mx-auto space-y-2 ">
-        <div className="pt-3 sm:pt-4 lg:pt-20 space-y-2 ">
+        <div className="pt-3 sm:pt-4 space-y-2 ">
           <h2 className="text-2xl sm:text-4xl text-gray-900 dark:text-white font-extrabold tracking-tight truncate">
             {result.name}
           </h2>

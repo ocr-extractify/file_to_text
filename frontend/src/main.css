@@ -10,7 +10,7 @@ body,
 
 /* skeleton loading animations */
 .skeleton {
-  width: 80%;
+  width: 100%;
   padding: 1rem 0;
   animation: skeleton-loading 1s linear infinite alternate;
   border-radius: 0.25rem;
