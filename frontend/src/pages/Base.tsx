@@ -44,7 +44,6 @@ const Base = () => {
     );
   }, [setSelectedIdx, location.pathname, TABS]);
 
-  console.log(selectedIdx);
   return (
     <div className="w-full h-full bg-white dark:bg-slate-950 text-black dark:text-white overflow-x-hidden">
       <div className="w-5/6 h-full mx-auto py-2">
