@@ -1,0 +1,9 @@
+# enable markdown language detection
+*.md linguist-detectable=true
+*.md linguist-language=Markdown
+*.md linguist-documentation=false
+
+# disable js, css and html language detection
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.html linguist-detectable=false
