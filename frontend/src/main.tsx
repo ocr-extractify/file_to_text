@@ -11,7 +11,13 @@ import {
 import '@/main.css';
 import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base } from '@/pages';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
