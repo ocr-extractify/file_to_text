@@ -6,7 +6,7 @@ import { MdOutlineQueryStats } from 'react-icons/md';
 import { PiFilesFill } from 'react-icons/pi';
 import { useFilesStore } from '@/utils/zustandStorage';
 import { FileStoreState } from '@/utils/zustandStorage/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DarkModeToggle from '@/fragments/DarkModeToggle';
 
 const Base = () => {
@@ -16,29 +16,35 @@ const Base = () => {
   const filesCount = useFilesStore(
     (state: FileStoreState) => state.files.length,
   );
-  const TABS = [
-    {
-      href: '/upload',
-      label: UPLOAD_FILES_TAB,
-      icon: IoCloudUpload,
-    },
-    {
-      href: '/files',
-      label: FILES_TAB,
-      icon: PiFilesFill,
-      badge: filesCount,
-    },
-    {
-      href: '/stats',
-      label: 'Stats',
-      icon: MdOutlineQueryStats,
-    },
-  ];
+  const TABS = useMemo(
+    () => [
+      {
+        href: '/upload',
+        label: UPLOAD_FILES_TAB,
+        icon: IoCloudUpload,
+      },
+      {
+        href: '/files',
+        label: FILES_TAB,
+        icon: PiFilesFill,
+        badge: filesCount,
+      },
+      {
+        href: '/stats',
+        label: 'Stats',
+        icon: MdOutlineQueryStats,
+      },
+    ],
+    [filesCount],
+  );
 
   useEffect(() => {
-    setSelectedIdx(TABS.findIndex((tab) => tab.href === location.pathname));
-  }, [setSelectedIdx, location.pathname]); // eslint-disable-line
+    setSelectedIdx(
+      TABS.findIndex((tab) => location.pathname.includes(tab.href)),
+    );
+  }, [setSelectedIdx, location.pathname, TABS]);
 
+  console.log(selectedIdx);
   return (
     <div className="w-full h-full bg-white dark:bg-slate-950 text-black dark:text-white overflow-x-hidden">
       <div className="w-5/6 h-full mx-auto py-2">
