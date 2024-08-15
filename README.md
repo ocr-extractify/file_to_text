@@ -2,6 +2,11 @@
 
 `docker compose up --build`
 
+# Deploy (docker in google cloud run)
+
+UNDER DEVELOPMENT.
+references: https://www.youtube.com/watch?v=cw34KMPSt4k
+
 # References
 
 ## GDPR:
