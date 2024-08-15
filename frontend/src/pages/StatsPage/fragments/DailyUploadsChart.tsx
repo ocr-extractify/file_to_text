@@ -17,6 +17,7 @@ import { MdBarChart } from 'react-icons/md';
 import { FaChartLine } from 'react-icons/fa6';
 import SegmentedControl from '@/components/inputs/SegmentedControl';
 import SkeletonChart from '@/components/skeletons/SkeletonChart';
+import { UPLOADS_DAILY_CHART } from '@/constants/uiTexts';
 
 const daysQtyInThisMonth = new Date(
   new Date().getFullYear(),
@@ -63,22 +64,25 @@ const DailyUploadsChart = () => {
   });
 
   return (
-    <div className="mt-10 flex flex-col">
-      <SegmentedControl
-        className="self-end my-2"
-        options={[
-          {
-            icon: <MdBarChart />,
-            onClick: () => setChartType('bar'),
-            active: chartType === 'bar',
-          },
-          {
-            icon: <FaChartLine />,
-            onClick: () => setChartType('line'),
-            active: chartType === 'line',
-          },
-        ]}
-      />
+    <div className="mt-10 flex flex-col bg-white dark:bg-slate-900 p-4 rounded-md shadow-md">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl leading-6 font-medium">{UPLOADS_DAILY_CHART}</h2>
+        <SegmentedControl
+          className="self-end my-2"
+          options={[
+            {
+              icon: <MdBarChart />,
+              onClick: () => setChartType('bar'),
+              active: chartType === 'bar',
+            },
+            {
+              icon: <FaChartLine />,
+              onClick: () => setChartType('line'),
+              active: chartType === 'line',
+            },
+          ]}
+        />
+      </div>
 
       <ResponsiveContainer width="100%" height={400}>
         {chartType === 'bar' ? (

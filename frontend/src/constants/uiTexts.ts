@@ -39,3 +39,4 @@ export const THIS_WEEK: string = 'This week';
 export const THIS_MONTH: string = 'This month';
 export const QUOTA_LIMIT_DESCRIPTION: string =
   'If the quota limit is reached, you will not be able to upload more files.';
+export const UPLOADS_DAILY_CHART: string = 'Daily uploads';
