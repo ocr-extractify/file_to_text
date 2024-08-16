@@ -14,6 +14,7 @@ class Config(BaseSettings):
     MONGODB_URL: str
     MONTHLY_UPLOADS_LIMIT: int
     DAILY_UPLOADS_BY_IP_LIMIT: int
+    UNRESTRICTED_IPS: str
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
 
 

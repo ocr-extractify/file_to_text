@@ -18,20 +18,24 @@ from config import config
 async def upload(file: UploadFile, request: Request):
     files_collection = db.get_collection("files")
 
-    client_daily_uploads_qty = await files_collection.count_documents(
-        {"client_ip": request.client.host}
-    )
-    if client_daily_uploads_qty > config.DAILY_UPLOADS_BY_IP_LIMIT:
-        raise HTTPException(status_code=400, detail={CLIENT_DAY_LIMIT_REACHED})
-
+    # check if there the quota per month is reached.
     now = datetime.now(timezone.utc)
     last_month = now - timedelta(days=30)
     current_month_uploads_qty = await files_collection.count_documents(
         {"created_at": {"$gte": last_month}}
     )
 
-    if current_month_uploads_qty > config.MONTHLY_UPLOADS_LIMIT:
-        raise HTTPException(status_code=400, detail={MONTHLY_LIMIT_REACHED})
+    if current_month_uploads_qty >= config.MONTHLY_UPLOADS_LIMIT:
+        raise HTTPException(status_code=400, detail=MONTHLY_LIMIT_REACHED)
+
+    # check if user day quota is reached
+    is_client_restricted = request.client.host not in config.UNRESTRICTED_IPS
+    if is_client_restricted:
+        client_daily_uploads_qty = await files_collection.count_documents(
+            {"client_ip": request.client.host}
+        )
+        if client_daily_uploads_qty >= config.DAILY_UPLOADS_BY_IP_LIMIT:
+            raise HTTPException(status_code=400, detail=CLIENT_DAY_LIMIT_REACHED)
 
     analyzed_file = await analyze_file(file)
     analyzed_file = await clean_document_ai_analysis(analyzed_file)

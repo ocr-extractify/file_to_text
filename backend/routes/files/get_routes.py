@@ -23,10 +23,10 @@ async def get_files():
 )
 async def get_file(id: str):
     if not ObjectId.is_valid(id):
-        raise HTTPException(status_code=400, detail={INVALID_FILE_ID})
+        raise HTTPException(status_code=400, detail=INVALID_FILE_ID)
 
     file = await db.get_collection("files").find_one({"_id": ObjectId(id)})
     if file is None:
-        raise HTTPException(status_code=404, detail={FILE_NOT_FOUND})
+        raise HTTPException(status_code=404, detail=FILE_NOT_FOUND)
 
     return file
