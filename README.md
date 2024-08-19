@@ -2,10 +2,10 @@
 
 `docker compose up --build`
 
-# Deploy (docker in google cloud run)
+# Deployment (Vercel)
 
-UNDER DEVELOPMENT.
-references: https://www.youtube.com/watch?v=cw34KMPSt4k
+- frontend: https://file-to-text-two.vercel.app
+- backend: https://file-to-text-roan.vercel.app/docs
 
 # References
 
