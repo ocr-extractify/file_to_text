@@ -8,6 +8,7 @@ load_dotenv()
 
 
 class Config(BaseSettings):
+    MODE: str
     VALID_MIMETYPES: str
     GOOGLE_APPLICATION_CREDENTIALS: str
     G_DOCUMENT_AI_PROJECT_ID: str
