@@ -4,8 +4,8 @@
 
 # Deployment (Vercel)
 
-- frontend: https://file-to-text-two.vercel.app
-- backend: https://file-to-text-roan.vercel.app/docs
+- frontend: https://doc-to-text.vercel.app
+- backend: https://doc-to-text-backend.vercel.app
 
 # References
 
