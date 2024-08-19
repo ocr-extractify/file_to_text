@@ -15,8 +15,8 @@ class Config(BaseSettings):
     G_DOCUMENT_AI_LOCATION: str
     G_DOCUMENT_AI_PROCESSOR: str
     MONGODB_URL: str | None = None
-    MONGODB_URL_DEV: str
-    MONGODB_URL_PROD: str
+    MONGODB_URL_DEV: str | None = None
+    MONGODB_URL_PROD: str | None = None
     MONTHLY_UPLOADS_LIMIT: int
     DAILY_UPLOADS_BY_IP_LIMIT: int
     UNRESTRICTED_IPS: str
