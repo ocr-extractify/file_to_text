@@ -47,7 +47,7 @@ async def get_stats():
     status_code=status.HTTP_200_OK,
     response_model=int,
 )
-async def get_stat(start_date: date, end_date: date | None = None):
+async def get_stat(start_date: date, end_date: Union[date, None] = None):
     files_collection = db.get_collection("files")
 
     if end_date is None:
