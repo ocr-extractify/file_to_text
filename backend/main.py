@@ -20,7 +20,6 @@ app.include_router(files_router)
 app.include_router(stats_router)
 app.include_router(test_router)
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
