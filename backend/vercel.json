@@ -8,8 +8,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "main.py",
-            "maxDuration": 60
+            "dest": "main.py"
         }
     ]
 }
