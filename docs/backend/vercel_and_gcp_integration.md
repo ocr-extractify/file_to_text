@@ -1,0 +1,1 @@
+vercel specify how you must integrate gcp with their host in https://vercel.com/docs/security/secure-backend-access/oidc/gcp

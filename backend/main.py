@@ -4,15 +4,11 @@ from db import setup_db
 from routes.files import files_router
 from routes.stats import stats_router
 from routes.test import test_router
-from utils.documentai.setup_credentials_for_production_env import (
-    setup_credentials_for_production_env,
-)
 from utils.middlewares import ExceptionHandlerMiddleware
 
 
 async def on_startup():
     await setup_db()
-    await setup_credentials_for_production_env()
 
 
 app = FastAPI(
