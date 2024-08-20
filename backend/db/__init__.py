@@ -1,7 +1,9 @@
+import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import config
 
 client = AsyncIOMotorClient(config.MONGODB_URL)
+client.get_io_loop = asyncio.get_event_loop
 db = client["file_to_text"]
 
 
