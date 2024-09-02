@@ -4,7 +4,17 @@ from typing import MutableMapping
 droppable_keys = ["revisions", "textChanges", "image"]
 
 
-async def delete_keys_from_dict(dictionary, keys):
+async def delete_keys_from_dict(dictionary, keys) -> dict:
+    """
+    Recursively deletes keys from a dictionary.
+
+    Args:
+        dictionary (dict): The dictionary from which keys will be deleted.
+        keys (list): A list of keys to be deleted.
+
+    Returns:
+        dict: The modified dictionary with the specified keys removed.
+    """
     keys_set = set(keys)
 
     modified_dict = {}
@@ -26,5 +36,14 @@ async def delete_keys_from_dict(dictionary, keys):
     return modified_dict
 
 
-async def clean_document_ai_analysis(analysis: dict):
+async def clean_document_ai_analysis(analysis: dict) -> dict:
+    """
+    Clean the Document AI analysis by removing droppable keys.
+
+    Args:
+        analysis (dict): The Document AI analysis to be cleaned.
+
+    Returns:
+        dict: The cleaned Document AI analysis.
+    """
     return await delete_keys_from_dict(analysis, droppable_keys)
