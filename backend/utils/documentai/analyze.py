@@ -1,9 +1,41 @@
 import json
+import os
 from fastapi import UploadFile
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1 as documentai
 from config import config
 from constants.errors_texts import INVALID_FILE_MIMETYPE
+from google.auth.transport.requests import AuthorizedSession
+
+# import google.auth
+from google.auth import identity_pool, exceptions
+
+
+class CustomSubjectTokenSupplier(identity_pool.SubjectTokenSupplier):
+
+    def get_subject_token(self, context, request):
+        audience = context.audience
+        subject_token_type = context.subject_token_type
+        try:
+            return os.getenv("VERCEL_OIDC_TOKEN")
+        except Exception as e:
+            # If token retrieval fails, raise a refresh error, setting retryable to true if the client should
+            # attempt to retrieve the subject token again.
+            raise exceptions.RefreshError(e, retryable=True)
+
+
+supplier = CustomSubjectTokenSupplier()
+credentials = identity_pool.Credentials(
+    # type="external_account"
+    audience=f"//iam.googleapis.com/projects/${os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/${os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/${os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",  # Set GCP Audience.
+    # token_url="urn:ietf:params:aws:token-type:jwt",  # Set subject token type.
+    subject_token_type="urn:ietf:params:oauth:token-type:jwt",
+    subject_token_supplier=supplier,  # Set supplier.
+    # service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
+    workforce_pool_user_project=os.getenv(
+        "GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID"
+    ),  # Set workforce pool user project.
+)
 
 
 async def analyze_file(file: UploadFile):
@@ -19,8 +51,10 @@ async def analyze_file(file: UploadFile):
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
+    # credentials, project = google.auth.default()
     opts = ClientOptions(
-        api_endpoint=f"{config.G_DOCUMENT_AI_LOCATION}-documentai.googleapis.com"
+        api_endpoint=f"{config.G_DOCUMENT_AI_LOCATION}-documentai.googleapis.com",
+        client_cert_source=credentials,
     )
     client = documentai.DocumentProcessorServiceClient(client_options=opts)
 
