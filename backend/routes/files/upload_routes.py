@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+import uuid
 from constants.errors_texts import CLIENT_DAY_LIMIT_REACHED, MONTHLY_LIMIT_REACHED
 from routes.files import files_router
 from fastapi import HTTPException, UploadFile, status, Request
@@ -44,10 +45,12 @@ async def upload(file: UploadFile, request: Request):
 
     analyzed_file = await analyze_file(file, request)
     analyzed_file = await clean_document_ai_analysis(analyzed_file)
-    file = FileModel(
-        name=file.filename, analysis=analyzed_file, client_ip=request.client.host
+    file_model = FileModel(
+        name=file.filename or str(uuid.uuid4()),
+        analysis=analyzed_file,
+        client_ip=request.client.host,
     )
-    file_dict = file.model_dump(by_alias=True, exclude=["id"])
+    file_dict = file_model.model_dump(by_alias=True, exclude=["id"])
     new_db_file = await files_collection.insert_one(file_dict)
     created_file = await files_collection.find_one({"_id": new_db_file.inserted_id})
     return created_file
