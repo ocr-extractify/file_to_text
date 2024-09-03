@@ -14,4 +14,5 @@ These creds are used to identify your app and allow it use google APIS.
 
 # References: 
 1. https://cloud.google.com/iam/docs/service-account-permissions
-2. https://cloud.google.com/iam/docs/manage-access-service-accounts#iam-view-access-sa-console
+2. https://www.googlecloudcommunity.com/gc/Serverless/Error-Code-403-Permission-iam-serviceAccounts-getAccessToken/td-p/717693
+3. https://cloud.google.com/iam/docs/manage-access-service-accounts#iam-view-access-sa-console
