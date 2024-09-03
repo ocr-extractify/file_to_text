@@ -40,29 +40,27 @@ from google.auth import external_account
 from google.auth.transport import requests
 import os
 
+oidc_token: str | None = None
+
 
 # CustomOIDCCredentials.__init__() missing 1 required positional argument: 'oidc_token'
 class CustomOIDCCredentials(external_account.Credentials):
-    def __init__(self, oidc_token: str | None = None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.oidc_token = oidc_token
-
     def retrieve_subject_token(self, request):
         # This code was developed based in vercel js lib: https://www.npmjs.com/package/@vercel/functions?activeTab=code
         try:
             env_token = os.getenv("VERCEL_OIDC_TOKEN")
+            print("self: ", self)
             print("env_token: ", env_token)
             if env_token:
                 return env_token
 
-            if not self.oidc_token:
-                return ""
+            print("vercel_oidc_token: ", oidc_token)
+            if not oidc_token:
                 raise ValueError(
                     "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"
                 )
 
-            print("vercel_oidc_token: ", self.oidc_token)
-            return self.oidc_token
+            return oidc_token
             # response = request(self._token_url)
             # response_headers = response.headers
             #  print("Response headers: ", response_headers)
@@ -99,14 +97,14 @@ async def analyze_file(file: UploadFile, request: Request):
         str: The extracted data from the PDF file.
     """
     # Instantiate your custom credentials
-    print("headers: ", request.headers)
-    print("x-vercel-oidc: ", request.headers.get("x-vercel-oidc-token"))
-    return
+    # print("headers: ", request.headers)
+    # print("x-vercel-oidc: ", request.headers.get("x-vercel-oidc-token"))
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
+    global oidc_token
+    oidc_token = request.headers.get("x-vercel-oidc-token")
     creds = CustomOIDCCredentials(
-        oidc_token=request.headers.get("x-vercel-oidc-token"),
         audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
         subject_token_type="urn:ietf:params:oauth:token-type:jwt",
         token_url="https://sts.googleapis.com/v1/token",
