@@ -56,6 +56,7 @@ class CustomOIDCCredentials(external_account.Credentials):
                 return env_token
 
             if not self.oidc_token:
+                return ""
                 raise ValueError(
                     "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"
                 )
@@ -103,7 +104,7 @@ async def analyze_file(file: UploadFile, request: Request):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
     creds = CustomOIDCCredentials(
-        oidc_token=request.headers.get("x-vercel-oidc-token", ""),
+        oidc_token=request.headers.get("x-vercel-oidc-token"),
         audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
         subject_token_type="urn:ietf:params:oauth:token-type:jwt",
         token_url="https://sts.googleapis.com/v1/token",
@@ -112,8 +113,7 @@ async def analyze_file(file: UploadFile, request: Request):
         scopes=["https://www.googleapis.com/auth/cloud-platform"],
     )
 
-    # Use the credentials to authenticate
-    request = google.auth.transport.requests.Request()
+    request = google.auth.transport.requests.Request()  # type: ignore
     creds.refresh(request)
 
     # credentials, project = google.auth.default()
@@ -140,8 +140,10 @@ async def analyze_file(file: UploadFile, request: Request):
         mime_type=file.content_type,
     )
 
-    request = documentai.ProcessRequest(name=processor.name, raw_document=raw_document)
-    result = client.process_document(request=request)
+    documentai_request = documentai.ProcessRequest(
+        name=processor.name, raw_document=raw_document
+    )
+    result = client.process_document(request=documentai_request)
     document = result.document
 
     return json.loads(documentai.Document.to_json(document))
