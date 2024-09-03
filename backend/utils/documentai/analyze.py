@@ -43,7 +43,7 @@ import os
 
 # CustomOIDCCredentials.__init__() missing 1 required positional argument: 'oidc_token'
 class CustomOIDCCredentials(external_account.Credentials):
-    def __init__(self, oidc_token, *args, **kwargs):
+    def __init__(self, oidc_token=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.oidc_token = oidc_token
 
@@ -54,6 +54,11 @@ class CustomOIDCCredentials(external_account.Credentials):
             print("env_token: ", env_token)
             if env_token:
                 return env_token
+
+            if not self.oidc_token:
+                raise ValueError(
+                    "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"
+                )
 
             print("vercel_oidc_token: ", self.oidc_token)
             return self.oidc_token
@@ -98,7 +103,7 @@ async def analyze_file(file: UploadFile, request: Request):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
     creds = CustomOIDCCredentials(
-        oidc_token=request.headers.get("x_vercel_oidc_token"),
+        oidc_token=request.headers.get("x-vercel-oidc-token"),
         audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
         subject_token_type="urn:ietf:params:oauth:token-type:jwt",
         token_url="https://sts.googleapis.com/v1/token",
