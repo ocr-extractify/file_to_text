@@ -76,14 +76,16 @@ async def analyze_file(file: UploadFile, request: Request):
         None,
     )
     if not processor:
+        # TODO: Store the error message in a constant
         raise LookupError("No processor")
 
     raw_document = documentai.RawDocument(
-        content=file.file.read(), mime_type=file.content_type, creds=creds
+        content=file.file.read(), mime_type=file.content_type
     )
 
     documentai_request = documentai.ProcessRequest(
-        name=processor.name, raw_document=raw_document, creds=creds
+        name=processor.name,
+        raw_document=raw_document,
     )
     result = client.process_document(request=documentai_request)
     document = result.document
