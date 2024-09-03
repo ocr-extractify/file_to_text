@@ -43,6 +43,7 @@ import os
 
 class CustomOIDCCredentials(external_account.Credentials):
     def __init__(self, oidc_token, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.oidc_token = oidc_token
 
     def retrieve_subject_token(self, request):
