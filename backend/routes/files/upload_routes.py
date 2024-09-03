@@ -38,7 +38,7 @@ async def upload(file: UploadFile, request: Request):
         if client_daily_uploads_qty >= config.DAILY_UPLOADS_BY_IP_LIMIT:
             raise HTTPException(status_code=400, detail=CLIENT_DAY_LIMIT_REACHED)
 
-    analyzed_file = await analyze_file(file)
+    analyzed_file = await analyze_file(file, request)
     analyzed_file = await clean_document_ai_analysis(analyzed_file)
     file = FileModel(
         name=file.filename, analysis=analyzed_file, client_ip=request.client.host

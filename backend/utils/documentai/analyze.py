@@ -1,11 +1,10 @@
 import json
 import os
-from fastapi import UploadFile
+from fastapi import Request, UploadFile
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1 as documentai
 from config import config
 from constants.errors_texts import INVALID_FILE_MIMETYPE
-from main import app
 
 # from google.auth.transport.requests import AuthorizedSession
 # import google.auth
@@ -76,7 +75,7 @@ class CustomOIDCCredentials(external_account.Credentials):
 # )
 
 
-async def analyze_file(file: UploadFile):
+async def analyze_file(file: UploadFile, request: Request | None = None):
     """
     Extracts data from a file using Google Cloud Document AI.
 
@@ -87,6 +86,7 @@ async def analyze_file(file: UploadFile):
         str: The extracted data from the PDF file.
     """
     # Instantiate your custom credentials
+    print("fastapi_request_token", request.app.x_vercel_oidc_token)
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
