@@ -51,6 +51,7 @@ class CustomOIDCCredentials(external_account.Credentials):
 
             response = request(self._token_url)
             response_headers = response.headers
+            print("Response headers: ", response_headers)
             token = response_headers.get("x-vercel-oidc-token")
             if not token:
                 raise ValueError(
