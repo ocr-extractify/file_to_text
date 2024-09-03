@@ -5,6 +5,7 @@ from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1 as documentai
 from config import config
 from constants.errors_texts import INVALID_FILE_MIMETYPE
+from main import app
 
 # from google.auth.transport.requests import AuthorizedSession
 # import google.auth
@@ -50,10 +51,12 @@ class CustomOIDCCredentials(external_account.Credentials):
             if env_token:
                 return env_token
 
-            response = request(self._token_url)
-            response_headers = response.headers
-            print("Response headers: ", response_headers)
-            token = response_headers.get("x-vercel-oidc-token")
+            # response = request(self._token_url)
+            # response_headers = response.headers
+            #  print("Response headers: ", response_headers)
+            # token = response_headers.get("x-vercel-oidc-token")
+            token = app.x_vercel_oidc_token
+            print("Token: ", token)
             if not token:
                 raise ValueError(
                     "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"

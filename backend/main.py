@@ -15,6 +15,7 @@ app = FastAPI(
     title="File to text", version="1.0.0", root_path="/api", on_startup=[on_startup]
 )
 
+
 app.include_router(files_router)
 app.include_router(stats_router)
 app.include_router(test_router)
