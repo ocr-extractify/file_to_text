@@ -102,6 +102,7 @@ async def analyze_file(file: UploadFile, request: Request):
         token_url="https://sts.googleapis.com/v1/token",
         service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
         credential_source="https://iamcredentials.googleapis.com/v1",
+        scopes=["https://www.googleapis.com/auth/cloud-platform"],
         oidc_token=request.headers.get("x_vercel_oidc_token"),
     )
 

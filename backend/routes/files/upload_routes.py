@@ -50,7 +50,7 @@ async def upload(file: UploadFile, request: Request):
         analysis=analyzed_file,
         client_ip=request.client.host,
     )
-    file_dict = file_model.model_dump(by_alias=True, exclude=["id"])
+    file_dict = file_model.model_dump(by_alias=True, exclude={"id"})
     new_db_file = await files_collection.insert_one(file_dict)
     created_file = await files_collection.find_one({"_id": new_db_file.inserted_id})
     return created_file
