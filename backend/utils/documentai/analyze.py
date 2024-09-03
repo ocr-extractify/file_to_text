@@ -41,6 +41,7 @@ from google.auth.transport import requests
 import os
 
 
+# CustomOIDCCredentials.__init__() missing 1 required positional argument: 'oidc_token'
 class CustomOIDCCredentials(external_account.Credentials):
     def __init__(self, oidc_token, *args, **kwargs):
         self.oidc_token = oidc_token
@@ -97,13 +98,13 @@ async def analyze_file(file: UploadFile, request: Request):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
     creds = CustomOIDCCredentials(
+        oidc_token=request.headers.get("x_vercel_oidc_token"),
         audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
         subject_token_type="urn:ietf:params:oauth:token-type:jwt",
         token_url="https://sts.googleapis.com/v1/token",
         service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
         credential_source="https://iamcredentials.googleapis.com/v1",
         scopes=["https://www.googleapis.com/auth/cloud-platform"],
-        oidc_token=request.headers.get("x_vercel_oidc_token"),
     )
 
     # Use the credentials to authenticate
@@ -126,6 +127,8 @@ async def analyze_file(file: UploadFile, request: Request):
         ),
         None,
     )
+    if not processor:
+        raise LookupError("No processor")
 
     raw_document = documentai.RawDocument(
         content=file.file.read(),
