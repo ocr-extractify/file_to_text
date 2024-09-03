@@ -46,6 +46,7 @@ class CustomOIDCCredentials(external_account.Credentials):
         # This code was developed based in vercel js lib: https://www.npmjs.com/package/@vercel/functions?activeTab=code
         try:
             env_token = os.getenv("VERCEL_OIDC_TOKEN")
+            print("env_token: ", env_token)
             if env_token:
                 return env_token
 

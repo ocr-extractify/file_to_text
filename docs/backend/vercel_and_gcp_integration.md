@@ -5,3 +5,4 @@ references:
 2. https://googleapis.dev/python/google-auth/2.6.6/reference/google.auth.identity_pool.html
 3. https://cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds
 4. https://vercel.com/changelog/oidc-federation-now-available-in-beta
+5. https://vercel.com/blog/enhancing-security-of-backend-connectivity-with-openid-connect
