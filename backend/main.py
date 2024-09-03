@@ -4,7 +4,7 @@ from db import setup_db
 from routes.files import files_router
 from routes.stats import stats_router
 from routes.test import test_router
-from utils.middlewares import BeforeRequestMiddleware, ExceptionHandlerMiddleware
+from utils.middlewares import ExceptionHandlerMiddleware
 
 
 async def on_startup():
@@ -27,4 +27,3 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(ExceptionHandlerMiddleware)
-app.add_middleware(BeforeRequestMiddleware)

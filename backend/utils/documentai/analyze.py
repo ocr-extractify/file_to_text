@@ -80,7 +80,7 @@ class CustomOIDCCredentials(external_account.Credentials):
 # )
 
 
-async def analyze_file(file: UploadFile, request: Request | None = None):
+async def analyze_file(file: UploadFile, request: Request):
     """
     Extracts data from a file using Google Cloud Document AI.
 
@@ -91,7 +91,7 @@ async def analyze_file(file: UploadFile, request: Request | None = None):
         str: The extracted data from the PDF file.
     """
     # Instantiate your custom credentials
-    print("fastapi_request_token", request.app.x_vercel_oidc_token)
+    print("headers: ", request.headers)
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
@@ -101,7 +101,7 @@ async def analyze_file(file: UploadFile, request: Request | None = None):
         token_url="https://sts.googleapis.com/v1/token",
         service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
         credential_source="https://iamcredentials.googleapis.com/v1",
-        oidc_token=request.app.x_vercel_oidc_token,
+        oidc_token=request.headers.get("x_vercel_oidc_token"),
     )
 
     # Use the credentials to authenticate
