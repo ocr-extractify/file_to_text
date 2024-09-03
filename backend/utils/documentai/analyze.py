@@ -39,51 +39,28 @@ import google.auth
 from google.auth import external_account
 from google.auth.transport import requests
 import os
+from google.auth.transport.requests import AuthorizedSession
 
 oidc_token: str | None = None
 
 
-# CustomOIDCCredentials.__init__() missing 1 required positional argument: 'oidc_token'
 class CustomOIDCCredentials(external_account.Credentials):
     def retrieve_subject_token(self, request):
         # This code was developed based in vercel js lib: https://www.npmjs.com/package/@vercel/functions?activeTab=code
         try:
             env_token = os.getenv("VERCEL_OIDC_TOKEN")
-            print("self: ", self)
-            print("env_token: ", env_token)
             if env_token:
                 return env_token
 
-            print("vercel_oidc_token: ", oidc_token)
             if not oidc_token:
                 raise ValueError(
                     "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"
                 )
 
             return oidc_token
-            # response = request(self._token_url)
-            # response_headers = response.headers
-            #  print("Response headers: ", response_headers)
-            # token = response_headers.get("x-vercel-oidc-token")
-            token = app.x_vercel_oidc_token
-            print("Token: ", token)
-            if not token:
-                raise ValueError(
-                    "The 'x-vercel-oidc-token' header is missing from the request. Do you have the OIDC option enabled in the Vercel project settings?"
-                )
-            return token
 
         except Exception as e:
             raise exceptions.RefreshError(e, retryable=True)
-
-
-# creds = external_account.IdentityPoolCredentials(
-#     audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
-#     subject_token_type="urn:ietf:params:oauth:token-type:jwt",
-#     token_url="https://sts.googleapis.com/v1/token",
-#     subject_token_supplier=supplier,
-#     service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
-# )
 
 
 async def analyze_file(file: UploadFile, request: Request):
@@ -96,9 +73,6 @@ async def analyze_file(file: UploadFile, request: Request):
     Returns:
         str: The extracted data from the PDF file.
     """
-    # Instantiate your custom credentials
-    # print("headers: ", request.headers)
-    # print("x-vercel-oidc: ", request.headers.get("x-vercel-oidc-token"))
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
@@ -109,18 +83,19 @@ async def analyze_file(file: UploadFile, request: Request):
         subject_token_type="urn:ietf:params:oauth:token-type:jwt",
         token_url="https://sts.googleapis.com/v1/token",
         service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
-        credential_source="https://iamcredentials.googleapis.com/v1",
+        # not used, but the external_account.Credentials don't mark it as optional
+        credential_source=None,
         scopes=["https://www.googleapis.com/auth/cloud-platform"],
     )
+    print("email: ", creds.service_account_email)
+    # session = AuthorizedSession(creds)
 
-    request = google.auth.transport.requests.Request()  # type: ignore
-    creds.refresh(request)
-
-    # credentials, project = google.auth.default()
     opts = ClientOptions(
         api_endpoint=f"{config.G_DOCUMENT_AI_LOCATION}-documentai.googleapis.com",
     )
-    client = documentai.DocumentProcessorServiceClient(client_options=opts)
+    client = documentai.DocumentProcessorServiceClient(
+        client_options=opts, credentials=creds
+    )
 
     parent = client.common_location_path(
         config.G_DOCUMENT_AI_PROJECT_ID, config.G_DOCUMENT_AI_LOCATION
@@ -136,12 +111,11 @@ async def analyze_file(file: UploadFile, request: Request):
         raise LookupError("No processor")
 
     raw_document = documentai.RawDocument(
-        content=file.file.read(),
-        mime_type=file.content_type,
+        content=file.file.read(), mime_type=file.content_type, creds=creds
     )
 
     documentai_request = documentai.ProcessRequest(
-        name=processor.name, raw_document=raw_document
+        name=processor.name, raw_document=raw_document, creds=creds
     )
     result = client.process_document(request=documentai_request)
     document = result.document

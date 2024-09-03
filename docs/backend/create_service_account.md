@@ -11,3 +11,7 @@ These creds are used to identify your app and allow it use google APIS.
 3. Manage the service account roles (which service it has access). It's recommend restrict your service account to a specific scope. I'll configure it to have access only in document AI.
     ![create service account](/docs/assets/create_service_account/image_2.png)
 4. Go to the `KEYS` tab after create your service account and create a new json private-key. It'll download the private key in your computer.
+
+# References: 
+1. https://cloud.google.com/iam/docs/service-account-permissions
+2. https://cloud.google.com/iam/docs/manage-access-service-accounts#iam-view-access-sa-console
