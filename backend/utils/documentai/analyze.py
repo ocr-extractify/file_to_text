@@ -100,6 +100,8 @@ async def analyze_file(file: UploadFile, request: Request):
     """
     # Instantiate your custom credentials
     print("headers: ", request.headers)
+    print("x-vercel-oidc: ", request.headers.get("x-vercel-oidc-token"))
+    return
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
 
