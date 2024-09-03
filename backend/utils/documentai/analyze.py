@@ -64,20 +64,6 @@ class CustomOIDCCredentials(external_account.Credentials):
             raise exceptions.RefreshError(e, retryable=True)
 
 
-# Instantiate your custom credentials
-creds = CustomOIDCCredentials(
-    audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
-    subject_token_type="urn:ietf:params:oauth:token-type:jwt",
-    token_url="https://sts.googleapis.com/v1/token",
-    service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
-    credential_source="https://iamcredentials.googleapis.com/v1",
-)
-
-# Use the credentials to authenticate
-request = google.auth.transport.requests.Request()
-creds.refresh(request)
-
-
 # creds = external_account.IdentityPoolCredentials(
 #     audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
 #     subject_token_type="urn:ietf:params:oauth:token-type:jwt",
@@ -97,8 +83,21 @@ async def analyze_file(file: UploadFile):
     Returns:
         str: The extracted data from the PDF file.
     """
+    # Instantiate your custom credentials
     if file.content_type not in config.VALID_MIMETYPES.split(","):
         raise TypeError(INVALID_FILE_MIMETYPE)
+
+    creds = CustomOIDCCredentials(
+        audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
+        subject_token_type="urn:ietf:params:oauth:token-type:jwt",
+        token_url="https://sts.googleapis.com/v1/token",
+        service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
+        credential_source="https://iamcredentials.googleapis.com/v1",
+    )
+
+    # Use the credentials to authenticate
+    request = google.auth.transport.requests.Request()
+    creds.refresh(request)
 
     # credentials, project = google.auth.default()
     opts = ClientOptions(
