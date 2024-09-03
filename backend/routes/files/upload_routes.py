@@ -16,6 +16,10 @@ from config import config
     response_model=FileModel,
 )
 async def upload(file: UploadFile, request: Request):
+    if request.client is None:
+        # TODO: Add detail error message.
+        raise HTTPException(status_code=400, detail="")
+
     files_collection = db.get_collection("files")
 
     # check if there the quota per month is reached.

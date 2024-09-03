@@ -42,6 +42,9 @@ import os
 
 
 class CustomOIDCCredentials(external_account.Credentials):
+    def __init__(self, oidc_token, *args, **kwargs):
+        self.oidc_token = oidc_token
+
     def retrieve_subject_token(self, request):
         # This code was developed based in vercel js lib: https://www.npmjs.com/package/@vercel/functions?activeTab=code
         try:
@@ -50,6 +53,8 @@ class CustomOIDCCredentials(external_account.Credentials):
             if env_token:
                 return env_token
 
+            print("vercel_oidc_token: ", self.oidc_token)
+            return self.oidc_token
             # response = request(self._token_url)
             # response_headers = response.headers
             #  print("Response headers: ", response_headers)
@@ -96,6 +101,7 @@ async def analyze_file(file: UploadFile, request: Request | None = None):
         token_url="https://sts.googleapis.com/v1/token",
         service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{os.getenv('GCP_SERVICE_ACCOUNT_EMAIL')}:generateAccessToken",
         credential_source="https://iamcredentials.googleapis.com/v1",
+        oidc_token=request.app.x_vercel_oidc_token,
     )
 
     # Use the credentials to authenticate
