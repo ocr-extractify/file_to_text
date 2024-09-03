@@ -44,8 +44,8 @@ import os
 # CustomOIDCCredentials.__init__() missing 1 required positional argument: 'oidc_token'
 class CustomOIDCCredentials(external_account.Credentials):
     def __init__(self, oidc_token, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.oidc_token = oidc_token
-        super(CustomOIDCCredentials, self).__init__(*args, **kwargs)
 
     def retrieve_subject_token(self, request):
         # This code was developed based in vercel js lib: https://www.npmjs.com/package/@vercel/functions?activeTab=code
