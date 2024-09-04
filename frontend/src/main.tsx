@@ -8,8 +8,8 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import '@/main.css';
 import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base } from '@/pages';
+import '@/main.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
