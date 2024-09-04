@@ -15,9 +15,9 @@ async def get_production_creds(request: Request) -> CustomOIDCCredentials | None
         credentials (CustomOIDCCredentials | None): The production credentials if in production mode, otherwise None.
     """
     if config.MODE == "production":
-        global oidc_token
         oidc_token = request.headers.get("x-vercel-oidc-token")
         return CustomOIDCCredentials(
+            oidc_token=oidc_token,
             audience=f"//iam.googleapis.com/projects/{os.getenv('GCP_PROJECT_NUMBER')}/locations/global/workloadIdentityPools/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_ID')}/providers/{os.getenv('GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID')}",
             subject_token_type="urn:ietf:params:oauth:token-type:jwt",
             token_url="https://sts.googleapis.com/v1/token",
