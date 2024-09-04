@@ -6,13 +6,10 @@ A service account represents a Google Cloud service identity, such as code runni
 These creds are used to identify your app and allow it use google APIS. 
 
 1. Go to service accounts panel and click in ``CREATE SERVICE ACCOUNT` button.
-    ![create service account](image_1.png)
+   ![create service account](/docs/assets/create_service_account/image_1.png)
 2. Input service account details.
 3. Manage the service account roles (which service it has access). It's recommend restrict your service account to a specific scope. I'll configure it to have access only in document AI.
     ![create service account](/docs/assets/create_service_account/image_2.png)
 4. Go to the `KEYS` tab after create your service account and create a new json private-key. It'll download the private key in your computer.
 
-# References: 
-1. https://cloud.google.com/iam/docs/service-account-permissions
-2. https://www.googlecloudcommunity.com/gc/Serverless/Error-Code-403-Permission-iam-serviceAccounts-getAccessToken/td-p/717693
-3. https://cloud.google.com/iam/docs/manage-access-service-accounts#iam-view-access-sa-console
+
