@@ -8,12 +8,12 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     commit-message:
       prefix: ⬆ [frontend-deps]
   - package-ecosystem: "pip"
-    directory: "/backend"
+    directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     commit-message:
       prefix: ⬆ [backend-deps] 
