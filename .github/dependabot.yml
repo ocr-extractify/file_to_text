@@ -11,6 +11,7 @@ updates:
       interval: "daily"
     commit-message:
       prefix: ⬆ [frontend-deps]
+  # TODO: the python pip updates is not working, it's necessary make it work.
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
