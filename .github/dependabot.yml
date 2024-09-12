@@ -10,10 +10,10 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: ⬆
+      prefix: ⬆ [frontend-deps]
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: ⬆
+      prefix: ⬆ [backend-deps] 
