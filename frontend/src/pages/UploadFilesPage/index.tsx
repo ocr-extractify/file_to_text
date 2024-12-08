@@ -11,7 +11,7 @@ import { APIFile } from '@/utils/types';
 import Result from '@/fragments/Result';
 import { FileStoreState } from '@/utils/zustandStorage/types';
 import { NO_FILE } from '@/constants/errorsMsgs';
-import { RxTextAlignTop } from 'react-icons/rx';
+import { BsFillFileEarmarkArrowUpFill } from "react-icons/bs";
 
 function UploadFilesPage() {
   const [results, setResults] = useState<null | APIFile[]>(null);
@@ -66,11 +66,11 @@ function UploadFilesPage() {
             accept={VALID_MIMETYPES.join(',')}
           />
           <Button
-            className="w-fit mt-2 font-medium mx-auto space-x-2 flex items-center"
+            className="w-fit mt-2 mx-auto space-x-2 flex items-center"
             isLoading={uploadFileMutation.isPending}
           >
-            <span>{SUBMIT_BUTTON}</span>
-            <RxTextAlignTop className="w-5 h-5 flex items-end" />
+            <span className='uppercase font-medium'>{SUBMIT_BUTTON}</span>
+            <BsFillFileEarmarkArrowUpFill className='w-4 h-4'/>
           </Button>
         </form>
       ) : (
