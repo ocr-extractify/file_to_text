@@ -8,7 +8,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base } from '@/pages';
+import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base, AuthPage } from '@/pages';
 import '@/main.css';
 
 const queryClient = new QueryClient({
@@ -19,11 +19,18 @@ const queryClient = new QueryClient({
   },
 });
 
+
 const router = createBrowserRouter([
+  // TODO: IN FUTURE, ITS NEEDED TO SETUP AN AUTH PROVIDER TO ACCESS THE MAIN PAGES
+  {
+    path: "/auth",
+    element: <AuthPage />,
+  },
   {
     path: '/',
     element: <Base />,
     children: [
+     
       {
         path: '/',
         element: <Navigate to="/upload" />,
