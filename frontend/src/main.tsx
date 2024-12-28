@@ -8,8 +8,9 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base, AuthPage } from '@/pages';
+import { FilesPage, FilePage, StatsPage, UploadFilesPage, Base, SignInPage, SignUpPage } from '@/pages';
 import '@/main.css';
+import './i18n';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,12 +20,15 @@ const queryClient = new QueryClient({
   },
 });
 
-
 const router = createBrowserRouter([
   // TODO: IN FUTURE, ITS NEEDED TO SETUP AN AUTH PROVIDER TO ACCESS THE MAIN PAGES
   {
-    path: "/auth",
-    element: <AuthPage />,
+    path: "/auth/signin",
+    element: <SignInPage />,
+  },
+  {
+    path: "/auth/signup",
+    element: <SignUpPage />,
   },
   {
     path: '/',
